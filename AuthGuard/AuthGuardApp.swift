@@ -5,8 +5,13 @@
 //  Created by Lukas Grimm on 10.07.25.
 //
 
+import CodeScanner
 import SwiftUI
 import SwiftData
+
+enum Route {
+    case scan
+}
 
 @main
 struct AuthGuardApp: App {
@@ -21,17 +26,29 @@ struct AuthGuardApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(authenticator)
-                .onAppear {
-                    do {
-                        try self.store.save(forIdentifier: "test", "foo".data(using: .utf8)!)
-                        let data = try self.store.retrieve(forIdentifier: "test")
-                        print(String(data: data, encoding: .utf8)!)
-                    } catch {
-                        print(error)
+            NavigationStack {
+                ContentView()
+                    .environmentObject(authenticator)
+                    .onAppear {
+                        do {
+                            try self.store.save(forIdentifier: "test", "foo".data(using: .utf8)!)
+                            let data = try self.store.retrieve(forIdentifier: "test")
+                            print(String(data: data, encoding: .utf8)!)
+                        } catch {
+                            print(error)
+                        }
                     }
-                }
+                    .navigationDestination(for: Route.self) { route in
+                        switch route {
+                        case .scan:
+                            ScannerView()
+                        }
+                    }
+            }
         }
+    }
+    
+    private func handleScan(result: Result<ScanResult, ScanError>) {
+        // TODO: add qr-code handling
     }
 }

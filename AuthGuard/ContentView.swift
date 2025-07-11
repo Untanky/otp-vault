@@ -20,6 +20,21 @@ struct ContentView: View {
             }
         } else {
             OneTimePasswordListView()
+                .navigationTitle("One-Time Passwords")
+                .toolbarBackground(Color.accentColor, for: .bottomBar)
+                .toolbar {
+                    ToolbarItem(placement: .bottomBar) {
+                        NavigationLink(value: "manuallyAdd") {
+                            Image(systemName: "plus")
+                        }
+                    }
+                    ToolbarItem(placement: .bottomBar) {
+                        NavigationLink(value: Route.scan) {
+                            Image(systemName: "qrcode.viewfinder")
+                        }
+                    }
+                }
+                .searchable(text: .constant(""), prompt: "Search")
         }
     }
 }
