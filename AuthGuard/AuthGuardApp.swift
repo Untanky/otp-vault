@@ -10,9 +10,12 @@ import SwiftData
 
 @main
 struct AuthGuardApp: App {
+    @State var authenticator = Authenticator()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(authenticator)
         }
     }
 }

@@ -2,31 +2,29 @@
 //  ContentView.swift
 //  AuthGuard
 //
-//  Created by Lukas Grimm on 10.07.25.
+//  Created by Lukas Grimm on 11.07.25.
 //
 
+import LocalAuthentication
 import SwiftUI
-import SwiftData
 
 struct ContentView: View {
-    
-    let items: [OneTimePasswordItem] = [
-        OneTimePasswordItem(title: "Platform 1", account: "Account 1", secret: "abc".data(using: .utf8)!, interval: TimeInterval(30)),
-        OneTimePasswordItem(title: "Platform 2", account: "Account 2", secret: "def".data(using: .utf8)!, interval: TimeInterval(30)),
-    ]
+    @EnvironmentObject var authenticator: Authenticator
     
     var body: some View {
-        List(items) { item in
-            OneTimePasswordItemView(item: item, onClickCode: { copyToClipboard($0) })
+        if !authenticator.authenticated {
+            AuthenticationView {
+                Task {
+                    await authenticator.authenticate()
+                }
+            }
+        } else {
+            OneTimePasswordListView()
         }
-        .listStyle(.insetGrouped)
-    }
-    
-    private func copyToClipboard(_ text: String) {
-        UIPasteboard.general.string = text
     }
 }
 
 #Preview {
     ContentView()
+        .environmentObject(Authenticator())
 }
