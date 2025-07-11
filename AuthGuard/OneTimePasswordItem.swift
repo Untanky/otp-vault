@@ -12,4 +12,5 @@ struct OneTimePasswordItem: Equatable, Identifiable {
     let title: String;
     let account: String;
     let secret: Data;
+    let interval: TimeInterval
 }
