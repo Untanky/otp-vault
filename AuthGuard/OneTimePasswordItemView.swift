@@ -10,10 +10,7 @@ import SwiftUI
 struct OneTimePasswordItemView: View {
     private static let codeFont = Font.system(size: 24, weight: .bold, design: .monospaced)
     
-    let title: String
-    let account: String
-    let secret: Data
-    let interval: TimeInterval
+    let oneTimePassword: OneTimePasswordItem
     
     let onClickCode: (String) -> Void
     
@@ -22,21 +19,18 @@ struct OneTimePasswordItemView: View {
     @State private var code: String
     
     init(item: OneTimePasswordItem, onClickCode: @escaping (String) -> Void) {
-        self.title = item.title
-        self.account = item.account
-        self.secret = item.secret
-        self.interval = item.interval
+        self.oneTimePassword = item
         
         self.onClickCode = onClickCode
         
-        self.code = generateHotp(secret, Int(Date().timeIntervalSince1970))
+        self.code = generateHotp(item.secret, Int(Date().timeIntervalSince1970))
     }
     
     var body: some View {
         HStack(alignment: .center) {
             VStack(alignment: .leading) {
-                Text(title)
-                Text(account)
+                Text(oneTimePassword.label)
+                Text(oneTimePassword.account)
                     .foregroundStyle(.secondary)
             }
             Spacer()
@@ -45,9 +39,22 @@ struct OneTimePasswordItemView: View {
                     .font(OneTimePasswordItemView.codeFont)
             }
         }
+        .contextMenu {
+            NavigationLink(value: Route.oneTimePasswordDetails(item: oneTimePassword)) {
+                Label("Show Details", systemImage: "info.circle")
+            }
+            Button(action: { onClickCode(String(code)) }) {
+                Label("Copy Code", systemImage: "document.on.clipboard")
+            }
+            Button(role: .destructive, action: {
+                print("Delete \(oneTimePassword)")
+            }) {
+                Label("Delete", systemImage: "trash")
+            }
+        }
         .onAppear {
-            self.timerId = TimerService.shared.register(forInterval: interval, callback: {
-                self.code = generateHotp(secret, Int(Date().timeIntervalSince1970))
+            self.timerId = TimerService.shared.register(forInterval: oneTimePassword.period, callback: {
+                self.code = generateHotp(oneTimePassword.secret, Int(Date().timeIntervalSince1970))
             })
         }
         .onDisappear {
@@ -59,5 +66,5 @@ struct OneTimePasswordItemView: View {
 }
 
 #Preview {
-    OneTimePasswordItemView(item: OneTimePasswordItem(title: "Platform", account: "Account 1", secret: "a".data(using: .utf8)!, interval: TimeInterval(30)), onClickCode: { code in print("Hello World") })
+    OneTimePasswordItemView(item: OneTimePasswordItem(label: "Platform", issuer: "Issuer", account: "Account 1", secret: "a".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1), onClickCode: { code in print("Hello World") })
 }

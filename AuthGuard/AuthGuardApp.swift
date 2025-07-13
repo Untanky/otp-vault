@@ -9,8 +9,9 @@ import CodeScanner
 import SwiftUI
 import SwiftData
 
-enum Route {
+enum Route: Hashable {
     case scan
+    case oneTimePasswordDetails(item: OneTimePasswordItem)
 }
 
 @main
@@ -42,6 +43,8 @@ struct AuthGuardApp: App {
                         switch route {
                         case .scan:
                             ScannerView()
+                        case .oneTimePasswordDetails(let item):
+                            OneTimePasswordDetails(oneTimePassword: item)
                         }
                     }
             }
