@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct OneTimePasswordDetails: View {
-    let oneTimePassword: OneTimePasswordItem
+    let oneTimePassword: OneTimePassword
 
     var body: some View {
         Form {
@@ -52,7 +52,7 @@ struct OneTimePasswordDetails: View {
 }
 
 #Preview {
-    OneTimePasswordDetails(oneTimePassword: OneTimePasswordItem(
+    OneTimePasswordDetails(oneTimePassword: OneTimePassword(
         label: "Test",
         issuer: "ACME Inc.",
         account: "Account",

@@ -10,7 +10,7 @@ import SwiftUI
 struct OneTimePasswordItemView: View {
     private static let codeFont = Font.system(size: 24, weight: .bold, design: .monospaced)
     
-    let oneTimePassword: OneTimePasswordItem
+    let oneTimePassword: OneTimePassword
     
     let onClickCode: (String) -> Void
     
@@ -18,7 +18,7 @@ struct OneTimePasswordItemView: View {
     
     @State private var code: String
     
-    init(item: OneTimePasswordItem, onClickCode: @escaping (String) -> Void) {
+    init(item: OneTimePassword, onClickCode: @escaping (String) -> Void) {
         self.oneTimePassword = item
         
         self.onClickCode = onClickCode
@@ -66,5 +66,5 @@ struct OneTimePasswordItemView: View {
 }
 
 #Preview {
-    OneTimePasswordItemView(item: OneTimePasswordItem(label: "Platform", issuer: "Issuer", account: "Account 1", secret: "a".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1), onClickCode: { code in print("Hello World") })
+    OneTimePasswordItemView(item: OneTimePassword(label: "Platform", issuer: "Issuer", account: "Account 1", secret: "a".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1), onClickCode: { code in print("Hello World") })
 }

@@ -27,7 +27,7 @@ struct ScannerView: View {
             guard let uri = URL(string: result.string) else {
                 return
             }
-            let otpResult = OneTimePasswordItem.parseUri(uri)
+            let otpResult = OneTimePassword.parseUri(uri)
             switch otpResult {
             case .failure(let error):
                 print("Error: \(error)")

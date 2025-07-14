@@ -19,9 +19,9 @@ enum OTPAuthUriError: Error {
     case internalError(_ reason: LocalizedStringResource)
 }
 
-extension OneTimePasswordItem {
+extension OneTimePassword {
     
-    static func parseUri(_ uri: URL) -> Result<OneTimePasswordItem, OTPAuthUriError> {
+    static func parseUri(_ uri: URL) -> Result<OneTimePassword, OTPAuthUriError> {
         guard let components = URLComponents(url: uri, resolvingAgainstBaseURL: false) else {
             return .failure(.internalError("could not parse url"))
         }
@@ -67,6 +67,6 @@ extension OneTimePasswordItem {
             return .failure(.mismatchedIssuer)
         }
         
-        return .success(.init(label: label, issuer: issuer, account: label.split(separator: ":").last!.description, secret: Data(base64Encoded: secret)!, period: TimeInterval(period), digits: digits, algorithm: algorithm))
+        return .success(.init(label: label, issuer: issuer, account: label.split(separator: ":").last!.description, secret: secret, period: TimeInterval(period), digits: digits, algorithm: algorithm))
     }
 }

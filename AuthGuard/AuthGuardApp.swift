@@ -11,7 +11,7 @@ import SwiftData
 
 enum Route: Hashable {
     case scan
-    case oneTimePasswordDetails(item: OneTimePasswordItem)
+    case oneTimePasswordDetails(item: OneTimePassword)
 }
 
 @main
