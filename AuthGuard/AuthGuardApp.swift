@@ -35,7 +35,6 @@ struct AuthGuardApp: App {
                         do {
                             try self.store.save(forIdentifier: "test", "foo".data(using: .utf8)!)
                             let data = try self.store.retrieve(forIdentifier: "test")
-                            print(String(data: data, encoding: .utf8)!)
                         } catch {
                             print(error)
                         }

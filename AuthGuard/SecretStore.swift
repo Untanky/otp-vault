@@ -62,7 +62,5 @@ class SecretStore {
         
         let deleteStatus = SecItemDelete(query as CFDictionary)
         let status = SecItemAdd(query as CFDictionary, nil)
-        print(deleteStatus == errSecSuccess)
-        print(status == errSecSuccess)
     }
 }

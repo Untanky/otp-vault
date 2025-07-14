@@ -13,6 +13,10 @@ struct OneTimePasswordDetails: View {
     var body: some View {
         Form {
             Section {
+                OneTimePasswordItemView(item: oneTimePassword, onClickCode: { _ in })
+            }
+            
+            Section {
                 LabeledContent {
                     TextField("Personal Account", text: .constant(oneTimePassword.label))
                 } label: {

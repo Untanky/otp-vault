@@ -41,7 +41,6 @@ class Authenticator: ObservableObject {
             try await context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Authenticate")
             self.state = .authenticated
         } catch {
-            print(error)
             self.state = .unauthenticated
         }
     }

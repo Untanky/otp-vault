@@ -23,7 +23,7 @@ struct OneTimePasswordItemView: View {
         
         self.onClickCode = onClickCode
         
-        self.code = generateHotp(item.secret, Int(Date().timeIntervalSince1970))
+        self.code = item.generateTotp()
     }
     
     var body: some View {
@@ -54,7 +54,7 @@ struct OneTimePasswordItemView: View {
         }
         .onAppear {
             self.timerId = TimerService.shared.register(forInterval: oneTimePassword.period, callback: {
-                self.code = generateHotp(oneTimePassword.secret, Int(Date().timeIntervalSince1970))
+                self.code = oneTimePassword.generateTotp()
             })
         }
         .onDisappear {
