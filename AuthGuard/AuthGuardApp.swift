@@ -44,7 +44,7 @@ struct AuthGuardApp: App {
                         case .scan:
                             ScannerView(path: $path)
                         case .oneTimePasswordDetails(let item):
-                            OneTimePasswordDetails(oneTimePassword: item)
+                            OneTimePasswordDetailsView(oneTimePassword: item)
                         }
                     }
             }
