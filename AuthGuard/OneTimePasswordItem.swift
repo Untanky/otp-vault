@@ -8,9 +8,9 @@
 import Foundation
 
 enum Algorithm: String, Identifiable, CaseIterable, Equatable, Hashable, Codable {
-    case sha1 = "SHA-1"
-    case sha256 = "SHA-256"
-    case sha512 = "SHA-512"
+    case sha1 = "SHA1"
+    case sha256 = "SHA256"
+    case sha512 = "SHA512"
     
     var id: String { rawValue }
 }

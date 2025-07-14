@@ -11,6 +11,8 @@ import LocalAuthentication
 enum ApplicationError: Error {
     case notFound
     case notImplemented
+    case invalidateUri(reason: String)
+    case unsupportedOption(reason: String)
     case internalError(reason: String)
 }
 

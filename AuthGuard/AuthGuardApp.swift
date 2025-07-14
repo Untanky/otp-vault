@@ -16,6 +16,7 @@ enum Route: Hashable {
 
 @main
 struct AuthGuardApp: App {
+    @State var path = NavigationPath()
     @State var authenticator: Authenticator
     let store: SecretStore
     
@@ -27,7 +28,7 @@ struct AuthGuardApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
+            NavigationStack(path: $path) {
                 ContentView()
                     .environmentObject(authenticator)
                     .onAppear {
@@ -42,7 +43,7 @@ struct AuthGuardApp: App {
                     .navigationDestination(for: Route.self) { route in
                         switch route {
                         case .scan:
-                            ScannerView()
+                            ScannerView(path: $path)
                         case .oneTimePasswordDetails(let item):
                             OneTimePasswordDetails(oneTimePassword: item)
                         }
