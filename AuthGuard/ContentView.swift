@@ -2,44 +2,41 @@
 //  ContentView.swift
 //  AuthGuard
 //
-//  Created by Lukas Grimm on 11.07.25.
+//  Created by Lukas Grimm on 15.07.25.
 //
 
-import LocalAuthentication
+import SwiftData
 import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var authenticator: Authenticator
+    @Environment(\.modelContext) private var modelContext
+    
+    @State var path = NavigationPath()
+    
+    var store: SecretStore
     
     var body: some View {
-        if !authenticator.authenticated {
-            AuthenticationView {
-                Task {
-                    await authenticator.authenticate()
-                }
-            }
-        } else {
-            OneTimePasswordListView()
-                .navigationTitle("One-Time Passwords")
-                .toolbarBackground(Color.accentColor, for: .bottomBar)
-                .toolbar {
-                    ToolbarItem(placement: .bottomBar) {
-                        NavigationLink(value: "manuallyAdd") {
-                            Image(systemName: "plus")
-                        }
-                    }
-                    ToolbarItem(placement: .bottomBar) {
-                        NavigationLink(value: Route.scan) {
-                            Image(systemName: "qrcode.viewfinder")
-                        }
+        NavigationStack(path: $path) {
+            StartScreen(store: store)
+                .navigationDestination(for: Route.self) { route in
+                    switch route {
+                    case .scan:
+                        ScannerView(scannedOneTimePassword: addOneTimePassword)
+                    case .oneTimePasswordDetails(let item):
+                        OneTimePasswordDetailsView(oneTimePassword: item)
                     }
                 }
-                .searchable(text: .constant(""), prompt: "Search")
         }
     }
-}
-
-#Preview {
-    ContentView()
-        .environmentObject(Authenticator())
+    
+    private func addOneTimePassword(_ oneTimePassword: OneTimePassword) {
+        modelContext.insert(OneTimePasswordEntity(from: oneTimePassword))
+        do {
+            try self.store.save(forIdentifier: oneTimePassword.id.uuidString, oneTimePassword.secret)
+            try modelContext.save()
+        } catch {
+            print(error)
+        }
+    }
 }

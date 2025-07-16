@@ -9,7 +9,7 @@ import CodeScanner
 import SwiftUI
 
 struct ScannerView: View {
-    @Binding var path: NavigationPath
+    let scannedOneTimePassword: (OneTimePassword) -> Void
     
     var body: some View {
         CodeScannerView(
@@ -32,7 +32,7 @@ struct ScannerView: View {
             case .failure(let error):
                 print("Error: \(error)")
             case .success(let item):
-                path.append(Route.oneTimePasswordDetails(item: item))
+                scannedOneTimePassword(item)
             }
         }
     }

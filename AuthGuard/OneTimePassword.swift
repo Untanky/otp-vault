@@ -16,7 +16,7 @@ enum Algorithm: String, Identifiable, CaseIterable, Equatable, Hashable, Codable
 }
 
 struct OneTimePassword: Equatable, Hashable, Identifiable {
-    let id: UUID = UUID()
+    let id: UUID
     let label: String
     let issuer: String
     let account: String
@@ -24,4 +24,15 @@ struct OneTimePassword: Equatable, Hashable, Identifiable {
     let period: TimeInterval
     let digits: Int
     let algorithm: Algorithm
+    
+    init(id: UUID = UUID(), label: String, issuer: String, account: String, secret: Data, period: TimeInterval, digits: Int, algorithm: Algorithm) {
+        self.id = id
+        self.label = label
+        self.issuer = issuer
+        self.account = account
+        self.secret = secret
+        self.period = period
+        self.digits = digits
+        self.algorithm = algorithm
+    }
 }

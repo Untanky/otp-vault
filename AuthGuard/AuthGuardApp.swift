@@ -16,9 +16,8 @@ enum Route: Hashable {
 
 @main
 struct AuthGuardApp: App {
-    @State var path = NavigationPath()
     @State var authenticator: Authenticator
-    let store: SecretStore
+    @State var store: SecretStore
     
     init() {
         let authenticator = Authenticator()
@@ -28,30 +27,9 @@ struct AuthGuardApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationStack(path: $path) {
-                ContentView()
-                    .environmentObject(authenticator)
-                    .onAppear {
-                        do {
-                            try self.store.save(forIdentifier: "test", "foo".data(using: .utf8)!)
-                            let data = try self.store.retrieve(forIdentifier: "test")
-                        } catch {
-                            print(error)
-                        }
-                    }
-                    .navigationDestination(for: Route.self) { route in
-                        switch route {
-                        case .scan:
-                            ScannerView(path: $path)
-                        case .oneTimePasswordDetails(let item):
-                            OneTimePasswordDetailsView(oneTimePassword: item)
-                        }
-                    }
-            }
+            ContentView(store: SecretStore(context: authenticator.context))
         }
-    }
-    
-    private func handleScan(result: Result<ScanResult, ScanError>) {
-        // TODO: add qr-code handling
+        .modelContainer(for: [OneTimePasswordEntity.self])
+        .environmentObject(authenticator)
     }
 }

@@ -9,17 +9,17 @@ import SwiftUI
 import SwiftData
 
 struct OneTimePasswordListView: View {
-    
-    let items: [OneTimePassword] = [
-//        OneTimePassword(label: "Platform 1", issuer: "Issuer 1", account: "Account 1", secret: "abc".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1),
-//        OneTimePassword(label: "Platform 2", issuer: "Issuer 2", account: "Account 2", secret: "def".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1),
-    ]
+    let oneTimePasswords: [OneTimePassword]
     
     var body: some View {
-        List(items) { item in
-            OneTimePasswordItemView(item: item, onClickCode: { copyToClipboard($0) })
+        if oneTimePasswords.isEmpty {
+            Text("No One-Time Passwords found.")
+        } else {
+            List(oneTimePasswords) { otp in
+                OneTimePasswordItemView(item: otp, onClickCode: { copyToClipboard($0) })
+            }
+            .listStyle(.insetGrouped)
         }
-        .listStyle(.insetGrouped)
     }
     
     private func copyToClipboard(_ text: String) {
@@ -28,5 +28,13 @@ struct OneTimePasswordListView: View {
 }
 
 #Preview {
-    OneTimePasswordListView()
+    OneTimePasswordListView(oneTimePasswords: [
+        OneTimePassword(label: "Code 1", issuer: "ACME Inc.", account: "john.doe@example.com", secret: "abc".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1),
+        OneTimePassword(label: "Code 2", issuer: "ACME Inc.", account: "john.doe@example.com", secret: "def".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1),
+        OneTimePassword(label: "Code 3", issuer: "ACME Inc.", account: "john.doe@example.com", secret: "ghi".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1),
+    ])
+}
+
+#Preview("Empty OneTimePasswordListView") {
+    OneTimePasswordListView(oneTimePasswords: [])
 }
