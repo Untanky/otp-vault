@@ -9,11 +9,6 @@ import CodeScanner
 import SwiftUI
 import SwiftData
 
-enum Route: Hashable {
-    case scan
-    case oneTimePasswordDetails(item: OneTimePassword)
-}
-
 @main
 struct AuthGuardApp: App {
     @State var authenticator: Authenticator

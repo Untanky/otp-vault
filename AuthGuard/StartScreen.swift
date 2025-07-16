@@ -29,7 +29,7 @@ struct StartScreen: View {
                 .toolbarBackground(Color.accentColor, for: .bottomBar)
                 .toolbar {
                     ToolbarItem(placement: .bottomBar) {
-                        NavigationLink(value: "manuallyAdd") {
+                        NavigationLink(value: Route.createManual) {
                             Image(systemName: "plus")
                         }
                     }

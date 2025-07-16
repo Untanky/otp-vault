@@ -17,7 +17,7 @@ extension String {
         
         for char in base32Chars {
             guard let index = base32Alphabet.firstIndex(of: char) else {
-                continue
+                return nil
             }
             let value = base32Alphabet.distance(from: base32Alphabet.startIndex, to: index)
             bitBuffer = (bitBuffer << 5) | value
@@ -29,7 +29,6 @@ extension String {
                 decodedBytes.append(UInt8(byte))
             }
         }
-        
         return Data(decodedBytes)
     }
 }
