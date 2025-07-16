@@ -39,19 +39,6 @@ struct OneTimePasswordItemView: View {
                     .font(OneTimePasswordItemView.codeFont)
             }
         }
-        .contextMenu {
-            NavigationLink(value: Route.oneTimePasswordDetails(item: oneTimePassword)) {
-                Label("Show Details", systemImage: "info.circle")
-            }
-            Button(action: { onClickCode(String(code)) }) {
-                Label("Copy Code", systemImage: "document.on.clipboard")
-            }
-            Button(role: .destructive, action: {
-                print("Delete \(oneTimePassword)")
-            }) {
-                Label("Delete", systemImage: "trash")
-            }
-        }
         .onAppear {
             self.timerId = TimerService.shared.register(forInterval: oneTimePassword.period, callback: {
                 self.code = oneTimePassword.generateTotp()

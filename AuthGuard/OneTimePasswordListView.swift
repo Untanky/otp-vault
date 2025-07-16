@@ -10,6 +10,7 @@ import SwiftData
 
 struct OneTimePasswordListView: View {
     let oneTimePasswords: [OneTimePassword]
+    let deleteOtp: (UUID) -> Void
     
     var body: some View {
         if oneTimePasswords.isEmpty {
@@ -17,6 +18,31 @@ struct OneTimePasswordListView: View {
         } else {
             List(oneTimePasswords) { otp in
                 OneTimePasswordItemView(item: otp, onClickCode: { copyToClipboard($0) })
+                    .contextMenu {
+                        NavigationLink(value: Route.oneTimePasswordDetails(item: otp)) {
+                            Label("Show Details", systemImage: "info.circle")
+                        }
+                        Button(action: { copyToClipboard(otp.generateTotp()) }) {
+                            Label("Copy Code", systemImage: "document.on.clipboard")
+                        }
+                        Button(role: .destructive, action: {
+                            deleteOtp(otp.id)
+                        }) {
+                            Label("Delete", systemImage: "trash")
+                        }
+                    }
+                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                        Button(action: { copyToClipboard(otp.generateTotp()) }) {
+                            Image(systemName: "document.on.clipboard")
+                        }
+                        .tint(.green)
+                    }
+                    .swipeActions(edge: .trailing) {
+                        Button(action: { deleteOtp(otp.id) }) {
+                            Image(systemName: "trash")
+                        }
+                        .tint(.red)
+                    }
             }
             .listStyle(.insetGrouped)
         }
@@ -32,9 +58,9 @@ struct OneTimePasswordListView: View {
         OneTimePassword(label: "Code 1", issuer: "ACME Inc.", account: "john.doe@example.com", secret: "abc".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1),
         OneTimePassword(label: "Code 2", issuer: "ACME Inc.", account: "john.doe@example.com", secret: "def".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1),
         OneTimePassword(label: "Code 3", issuer: "ACME Inc.", account: "john.doe@example.com", secret: "ghi".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1),
-    ])
+    ], deleteOtp: { _ in })
 }
 
 #Preview("Empty OneTimePasswordListView") {
-    OneTimePasswordListView(oneTimePasswords: [])
+    OneTimePasswordListView(oneTimePasswords: [], deleteOtp: { _ in })
 }

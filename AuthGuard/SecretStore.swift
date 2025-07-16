@@ -61,6 +61,27 @@ class SecretStore {
         ]
         
         let deleteStatus = SecItemDelete(query as CFDictionary)
+//        guard deleteStatus == secErr else {
+//            throw ApplicationError.internalError(reason: "could not delete item")
+//        }
+        
         let status = SecItemAdd(query as CFDictionary, nil)
+        guard status == errSecSuccess else {
+            fatalError("could not add item")
+        }
+    }
+    
+    func delete(forIdentifier identifier: String) throws {
+        let query: [String:Any] = [
+            kSecClass as String: kSecClassKey,
+            kSecUseAuthenticationContext as String: context,
+            kSecAttrApplicationLabel as String: identifier.data(using: .utf8)!,
+        ]
+        
+        let deleteStatus = SecItemDelete(query as CFDictionary)
+        
+        guard deleteStatus == errSecSuccess else {
+            throw ApplicationError.internalError(reason: "could not delete item")
+        }
     }
 }

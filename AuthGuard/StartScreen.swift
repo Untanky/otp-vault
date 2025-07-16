@@ -18,15 +18,14 @@ struct StartScreen: View {
     
     var body: some View {
         if !authenticator.authenticated {
-            AuthenticationView {
+            return AnyView(AuthenticationView {
                 Task {
                     await authenticator.authenticate()
                 }
-            }
+            })
         } else {
-            OneTimePasswordListView(oneTimePasswords: oneTimePasswords)
+            return AnyView(OneTimePasswordListView(oneTimePasswords: oneTimePasswords, deleteOtp: deleteOneTimePassword)
                 .navigationTitle("One-Time Passwords")
-                .toolbarBackground(Color.accentColor, for: .bottomBar)
                 .toolbar {
                     ToolbarItem(placement: .bottomBar) {
                         NavigationLink(value: Route.createManual) {
@@ -39,19 +38,34 @@ struct StartScreen: View {
                         }
                     }
                 }
-                .searchable(text: .constant(""), prompt: "Search")
                 .onAppear {
                     do {
                         let entities = try modelContext.fetch(FetchDescriptor<OneTimePasswordEntity>())
                         
-                        oneTimePasswords = try entities.map { entity in
-                            let secret = try self.store.retrieve(forIdentifier: entity.id.uuidString)
-                            return OneTimePassword(id: entity.id, label: entity.label, issuer: entity.issuer, account: entity.account, secret: secret, period: TimeInterval(entity.period), digits: entity.digits, algorithm: entity.algorithm)
+                        oneTimePasswords = entities.compactMap { entity in
+                            do {
+                                let secret = try self.store.retrieve(forIdentifier: entity.id.uuidString)
+                                return OneTimePassword(id: entity.id, label: entity.label, issuer: entity.issuer, account: entity.account, secret: secret, period: TimeInterval(entity.period), digits: entity.digits, algorithm: entity.algorithm)
+                            } catch {
+                                print(error)
+                                return nil
+                            }
                         }
                     } catch {
                         print(error)
                     }
                 }
+            )
+        }
+    }
+    
+    private func deleteOneTimePassword(_ id: UUID) {
+        do {
+            try store.delete(forIdentifier: id.uuidString)
+            try modelContext.delete(model: OneTimePasswordEntity.self, where: #Predicate { $0.id == id })
+            oneTimePasswords.removeAll { $0.id == id }
+        } catch {
+            print(error)
         }
     }
 }
