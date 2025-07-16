@@ -29,7 +29,7 @@ struct StartScreen: View {
                 .toolbar {
                     ToolbarItem(placement: .bottomBar) {
                         NavigationLink(value: Route.createManual) {
-                            Image(systemName: "plus")
+                            Image(systemName: "plus.circle")
                         }
                     }
                     ToolbarItem(placement: .bottomBar) {

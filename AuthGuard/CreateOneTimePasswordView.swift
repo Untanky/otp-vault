@@ -7,17 +7,17 @@
 
 import SwiftUI
 
-struct CreateOneTimePassword {
-    var label: String
-    var issuer: String
-    var account: String
-    var secret: String
-    var period: Int
-    var digits: Int
-    var algorithm: Algorithm
-}
-
 struct CreateOneTimePasswordView: View {
+    private struct CreateOneTimePassword {
+        var label: String
+        var issuer: String
+        var account: String
+        var secret: String
+        var period: Int
+        var digits: Int
+        var algorithm: Algorithm
+    }
+    
     @State private var oneTimePassword: CreateOneTimePassword = .init(label: "", issuer: "", account: "", secret: "", period: 30, digits: 6, algorithm: .sha1)
     
     @State private var showSecretError = false
@@ -30,43 +30,27 @@ struct CreateOneTimePasswordView: View {
     
     var body: some View {
         Form {
-            Section {
-                LabeledContent {
-                    TextField("Some account", text: $oneTimePassword.label)
-                } label: {
-                    Text("Label")
-                }
+            Section("Settings") {
+                TextField("Label", text: $oneTimePassword.label)
+            
+                TextField("Account", text: $oneTimePassword.account)
                 
-                LabeledContent {
-                    TextField("john.doe@example.com", text: $oneTimePassword.account)
-                } label: {
-                    Text("Account")
-                }
+                TextField("Secret", text: $oneTimePassword.secret)
+                    .alert("Invalid secret", isPresented: $showSecretError, actions: {
+                        Button(action: {
+                            showSecretError = false
+                        }) {
+                            Text("Close")
+                        }
+                    }, message: {
+                        Text("Secret must be a valid base32 encoded string")
+                    })
                 
-                LabeledContent {
-                    TextField("Secret", text: $oneTimePassword.secret)
-                } label: {
-                    Text("Secret")
-                }
-                .alert("Invalid secret", isPresented: $showSecretError, actions: {
-                    Button(action: {
-                        showSecretError = false
-                    }) {
-                        Text("Close")
-                    }
-                }, message: {
-                    Text("Secret must be a valid base32 encoded string")
-                })
-                
-                LabeledContent {
-                    TextField("ACME Inc.", text: $oneTimePassword.issuer)
-                } label: {
-                    Text("Issuer")
-                }
+                TextField("Issuer", text: $oneTimePassword.issuer)
             }
             
             Section {
-                DisclosureGroup("Advanced Settings") {
+                DisclosureGroup("Technical Details") {
                     Picker("Period", selection: $oneTimePassword.period) {
                         ForEach([15, 30, 60], id: \.self) {
                             Text("\($0) s")
@@ -86,10 +70,13 @@ struct CreateOneTimePasswordView: View {
                         }
                     }
                 }
+            } header: {
+                Text("Advanced Settings")
             } footer: {
                 Text("Only adjust these settings, if you know what you are doing.")
             }
         }
+        .navigationTitle("Add Code")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button(action: save) {
