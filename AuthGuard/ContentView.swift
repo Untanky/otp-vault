@@ -32,7 +32,7 @@ struct ContentView: View {
                     case .createManual:
                         CreateOneTimePasswordView(createdOtp: addOneTimePassword)
                     case .oneTimePasswordDetails(let item):
-                        OneTimePasswordDetailsView(oneTimePassword: item)
+                        OneTimePasswordDetailsView(oneTimePassword: item, deleteOtp: { _ in })
                     }
                 }
         }

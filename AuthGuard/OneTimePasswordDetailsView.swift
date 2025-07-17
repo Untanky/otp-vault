@@ -9,49 +9,34 @@ import SwiftUI
 
 struct OneTimePasswordDetailsView: View {
     let oneTimePassword: OneTimePassword
+    let deleteOtp: (UUID) -> Void
 
     var body: some View {
         Form {
-            Section {
-                OneTimePasswordItemView(item: oneTimePassword, onClickCode: { _ in })
+            Section("Settings") {
+                TextField("Label", text: .constant(oneTimePassword.label))
+                TextField("Account", text: .constant(oneTimePassword.account))
+                Text("(Secret is not shown)")
+                    .foregroundStyle(.secondary)
+                TextField("Issuer", text: .constant(oneTimePassword.issuer))
             }
             
             Section {
-                LabeledContent {
-                    TextField("Personal Account", text: .constant(oneTimePassword.label))
-                } label: {
-                    Text("Label")
-                        .foregroundStyle(.secondary)
-                }
-                
-                LabeledContent {
-                    TextField("john.doe@acme.com", text: .constant(oneTimePassword.account))
-                } label: {
-                    Text("Account")
-                        .foregroundStyle(.secondary)
+                DisclosureGroup("Technical Details") {
+                    LabeledContent("Period", value: String(format: "%i s", oneTimePassword.period))
+                    LabeledContent("Algorithm", value: oneTimePassword.algorithm.rawValue)
+                    LabeledContent("Digits", value: String(oneTimePassword.digits))
                 }
             }
-            
+           
             Section {
-                LabeledContent {
-                    Text("(Secret is not shown)")
-                } label: {
-                    Text("Key")
+                Button(action: { deleteOtp(oneTimePassword.id) }) {
+                    Label("Delete", systemImage: "trash")
+                        .foregroundStyle(.red)
                 }
-
-                LabeledContent {
-                    Text(oneTimePassword.issuer)
-                } label: {
-                    Text("Issuer")
-                }
-            }
-            
-            DisclosureGroup("Technical Details") {
-                LabeledContent("Period", value: String(format: "%i s", oneTimePassword.period))
-                LabeledContent("Algorithm", value: oneTimePassword.algorithm.rawValue)
-                LabeledContent("Digits", value: String(oneTimePassword.digits))
             }
         }
+        .navigationTitle("Details")
     }
 }
 
@@ -64,5 +49,5 @@ struct OneTimePasswordDetailsView: View {
         period: TimeInterval(30),
         digits: 6,
         algorithm: .sha1
-    ))
+    ), deleteOtp: { _ in })
 }

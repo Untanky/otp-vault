@@ -33,13 +33,13 @@ struct OneTimePasswordListView: View {
                     }
                     .swipeActions(edge: .leading, allowsFullSwipe: true) {
                         Button(action: { copyToClipboard(otp.generateTotp()) }) {
-                            Image(systemName: "document.on.clipboard")
+                            Label("Copy Code", systemImage: "document.on.clipboard")
                         }
                         .tint(.green)
                     }
                     .swipeActions(edge: .trailing) {
                         Button(action: { deleteOtp(otp.id) }) {
-                            Image(systemName: "trash")
+                            Label("Delete", systemImage: "trash")
                         }
                         .tint(.red)
                     }
