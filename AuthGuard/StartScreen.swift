@@ -10,11 +10,8 @@ import SwiftData
 import SwiftUI
 
 struct StartScreen: View {
-    @Environment(\.modelContext) var modelContext
     @EnvironmentObject var authenticator: Authenticator
-    var store: SecretStore
-    
-    @State var oneTimePasswords: [OneTimePassword] = []
+    @EnvironmentObject var oneTimePasswordService: OneTimePasswordService
     
     var body: some View {
         if !authenticator.authenticated {
@@ -24,7 +21,15 @@ struct StartScreen: View {
                 }
             })
         } else {
-            return AnyView(OneTimePasswordListView(oneTimePasswords: oneTimePasswords, deleteOtp: deleteOneTimePassword)
+            return AnyView(OneTimePasswordListView(oneTimePasswords: oneTimePasswordService.oneTimePasswords, deleteOtp: { id in
+                Task {
+                    do {
+                        try oneTimePasswordService.removeOneTimePassword(byId: id)
+                    } catch {
+                        print(error)
+                    }
+                }
+            })
                 .navigationTitle("One-Time Passwords")
                 .toolbar {
                     ToolbarItem(placement: .bottomBar) {
@@ -38,34 +43,7 @@ struct StartScreen: View {
                         }
                     }
                 }
-                .onAppear {
-                    do {
-                        let entities = try modelContext.fetch(FetchDescriptor<OneTimePasswordEntity>())
-                        
-                        oneTimePasswords = entities.compactMap { entity in
-                            do {
-                                let secret = try self.store.retrieve(forIdentifier: entity.id.uuidString)
-                                return OneTimePassword(id: entity.id, label: entity.label, issuer: entity.issuer, account: entity.account, secret: secret, period: TimeInterval(entity.period), digits: entity.digits, algorithm: entity.algorithm)
-                            } catch {
-                                print(error)
-                                return nil
-                            }
-                        }
-                    } catch {
-                        print(error)
-                    }
-                }
             )
-        }
-    }
-    
-    private func deleteOneTimePassword(_ id: UUID) {
-        do {
-            try store.delete(forIdentifier: id.uuidString)
-            try modelContext.delete(model: OneTimePasswordEntity.self, where: #Predicate { $0.id == id })
-            oneTimePasswords.removeAll { $0.id == id }
-        } catch {
-            print(error)
         }
     }
 }

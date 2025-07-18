@@ -16,36 +16,51 @@ enum Route: Hashable {
 
 struct ContentView: View {
     @EnvironmentObject var authenticator: Authenticator
-    @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var oneTimePasswordService: OneTimePasswordService
     
     @State var path = NavigationPath()
     
-    var store: SecretStore
-    
     var body: some View {
         NavigationStack(path: $path) {
-            StartScreen(store: store)
+            StartScreen()
+                .onAppear {
+                    Task {
+                        do {
+                            try oneTimePasswordService.loadOneTimePasswords()
+                        } catch {
+                            print(error)
+                        }
+                    }
+                }
                 .navigationDestination(for: Route.self) { route in
                     switch route {
                     case .scan:
-                        ScannerView(scannedOneTimePassword: addOneTimePassword)
+                        ScannerView(scannedOneTimePassword: { otp in
+                            do {
+                                try self.oneTimePasswordService.addOneTimePassword(otp)
+                            } catch {
+                                print(error)
+                            }
+                        })
                     case .createManual:
-                        CreateOneTimePasswordView(createdOtp: addOneTimePassword)
+                        CreateOneTimePasswordView(createdOtp: { otp in
+                            do {
+                                try self.oneTimePasswordService.addOneTimePassword(otp)
+                                path.removeLast()
+                            } catch {
+                                print(error)
+                            }
+                        })
                     case .oneTimePasswordDetails(let item):
-                        OneTimePasswordDetailsView(oneTimePassword: item, deleteOtp: { _ in })
+                        OneTimePasswordDetailsView(oneTimePassword: item, deleteOtp: { id in
+                            do {
+                                try self.oneTimePasswordService.removeOneTimePassword(byId: id)
+                            } catch {
+                                print(error)
+                            }
+                        })
                     }
                 }
-        }
-    }
-    
-    private func addOneTimePassword(_ oneTimePassword: OneTimePassword) {
-        modelContext.insert(OneTimePasswordEntity(from: oneTimePassword))
-        do {
-            try self.store.save(forIdentifier: oneTimePassword.id.uuidString, oneTimePassword.secret)
-            try modelContext.save()
-            path.removeLast()
-        } catch {
-            print(error)
         }
     }
 }
