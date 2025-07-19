@@ -10,7 +10,7 @@ import SwiftData
 
 struct ListView: View {
     let oneTimePasswords: [OneTimePassword]
-    let deleteOtp: (UUID) -> Void
+    let deleteOtp: (OneTimePassword) -> Void
     
     var body: some View {
         if oneTimePasswords.isEmpty {
@@ -26,7 +26,7 @@ struct ListView: View {
                             Label("Copy Code", systemImage: "document.on.clipboard")
                         }
                         Button(role: .destructive, action: {
-                            deleteOtp(otp.id)
+                            deleteOtp(otp)
                         }) {
                             Label("Delete", systemImage: "trash")
                         }
@@ -38,7 +38,7 @@ struct ListView: View {
                         .tint(.green)
                     }
                     .swipeActions(edge: .trailing) {
-                        Button(action: { deleteOtp(otp.id) }) {
+                        Button(action: { deleteOtp(otp) }) {
                             Label("Delete", systemImage: "trash")
                         }
                         .tint(.red)

@@ -52,15 +52,30 @@ struct ContentView: View {
                             }
                         })
                     case .oneTimePasswordDetails(let item):
-                        DetailsView(oneTimePassword: item, deleteOtp: { id in
-                            do {
-                                try self.oneTimePasswordService.removeOneTimePassword(byId: id)
-                            } catch {
-                                print(error)
-                            }
-                        })
+                        DetailsView(oneTimePassword: item, deleteOtp: { oneTimePasswordService.markForDeletion(item) })
                     }
                 }
+                .alert(
+                    "Delete One Time Password",
+                    isPresented: $oneTimePasswordService.showDeletionConfirmation,
+                    presenting: oneTimePasswordService.deletionMarkedOTP,
+                    actions: { item in
+                        Button(role: .destructive, action: deleteMarkedOTP) {
+                            Text("Delete")
+                        }
+                    },
+                    message: { item in
+                        Text("Are you sure you want to delete \(item.label)? You may loose access to your account, if you did not remove the multi-factor authentication requirement from your account settings, or back this OTP up somewhere else.")
+                    }
+                )
+        }
+    }
+    
+    func deleteMarkedOTP() {
+        do {
+            try oneTimePasswordService.deleteMarkedOneTimePassword()
+        } catch {
+            print(error)
         }
     }
 }

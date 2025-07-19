@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DetailsView: View {
     let oneTimePassword: OneTimePassword
-    let deleteOtp: (UUID) -> Void
+    let deleteOtp: () -> Void
 
     var body: some View {
         Form {
@@ -30,7 +30,7 @@ struct DetailsView: View {
             }
            
             Section {
-                Button(action: { deleteOtp(oneTimePassword.id) }) {
+                Button(action: deleteOtp) {
                     Label("Delete", systemImage: "trash")
                         .foregroundStyle(.red)
                 }
@@ -49,5 +49,5 @@ struct DetailsView: View {
         period: TimeInterval(30),
         digits: 6,
         algorithm: .sha1
-    ), deleteOtp: { _ in })
+    ), deleteOtp: { })
 }

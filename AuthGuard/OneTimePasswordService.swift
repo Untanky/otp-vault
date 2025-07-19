@@ -12,7 +12,10 @@ class OneTimePasswordService: ObservableObject {
     private let modelContext: ModelContext
     private let store: SecretStore
     
-    @Published var oneTimePasswords: [OneTimePassword] = []
+    @Published private(set) var oneTimePasswords: [OneTimePassword] = []
+    
+    @Published private(set) var deletionMarkedOTP: OneTimePassword?
+    @Published var showDeletionConfirmation: Bool = false
     
     init(modelContext: ModelContext, secretStore: SecretStore) {
         self.modelContext = modelContext
@@ -44,7 +47,29 @@ class OneTimePasswordService: ObservableObject {
         }
     }
     
-    func removeOneTimePassword(byId id: UUID) throws {
+    func markForDeletion(_ oneTimePassword: OneTimePassword) {
+        deletionMarkedOTP = oneTimePassword
+        showDeletionConfirmation = true
+    }
+    
+    func cancelDeletion() {
+        deletionMarkedOTP = nil
+        showDeletionConfirmation = false
+    }
+    
+    func deleteMarkedOneTimePassword() throws {
+        guard let id = deletionMarkedOTP?.id else {
+            fatalError("No OTP marked for deletion")
+        }
+        
+        try removeOneTimePassword(byId: id)
+        deletionMarkedOTP = nil
+        showDeletionConfirmation = false
+        
+        oneTimePasswords.removeAll(where: { $0.id == id })
+    }
+    
+    private func removeOneTimePassword(byId id: UUID) throws {
         try modelContext.delete(model: OneTimePasswordEntity.self, where: #Predicate { $0.id == id })
         do {
             try store.delete(forIdentifier: id.uuidString)

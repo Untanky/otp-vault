@@ -14,36 +14,19 @@ struct StartScreen: View {
     @EnvironmentObject var oneTimePasswordService: OneTimePasswordService
     
     var body: some View {
-        if !authenticator.authenticated {
-            return AnyView(AuthenticationView {
-                Task {
-                    await authenticator.authenticate()
-                }
-            })
-        } else {
-            return AnyView(ListView(oneTimePasswords: oneTimePasswordService.oneTimePasswords, deleteOtp: { id in
-                Task {
-                    do {
-                        try oneTimePasswordService.removeOneTimePassword(byId: id)
-                    } catch {
-                        print(error)
+        return ListView(oneTimePasswords: oneTimePasswordService.oneTimePasswords, deleteOtp: oneTimePasswordService.markForDeletion)
+            .navigationTitle("One-Time Passwords")
+            .toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    NavigationLink(value: Route.createManual) {
+                        Image(systemName: "plus.circle")
                     }
                 }
-            })
-                .navigationTitle("One-Time Passwords")
-                .toolbar {
-                    ToolbarItem(placement: .bottomBar) {
-                        NavigationLink(value: Route.createManual) {
-                            Image(systemName: "plus.circle")
-                        }
-                    }
-                    ToolbarItem(placement: .bottomBar) {
-                        NavigationLink(value: Route.scan) {
-                            Image(systemName: "qrcode.viewfinder")
-                        }
+                ToolbarItem(placement: .bottomBar) {
+                    NavigationLink(value: Route.scan) {
+                        Image(systemName: "qrcode.viewfinder")
                     }
                 }
-            )
-        }
+            }
     }
 }
