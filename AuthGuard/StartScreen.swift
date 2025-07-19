@@ -21,7 +21,7 @@ struct StartScreen: View {
                 }
             })
         } else {
-            return AnyView(OneTimePasswordListView(oneTimePasswords: oneTimePasswordService.oneTimePasswords, deleteOtp: { id in
+            return AnyView(ListView(oneTimePasswords: oneTimePasswordService.oneTimePasswords, deleteOtp: { id in
                 Task {
                     do {
                         try oneTimePasswordService.removeOneTimePassword(byId: id)

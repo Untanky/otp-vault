@@ -52,7 +52,7 @@ struct ContentView: View {
                             }
                         })
                     case .oneTimePasswordDetails(let item):
-                        OneTimePasswordDetailsView(oneTimePassword: item, deleteOtp: { id in
+                        DetailsView(oneTimePassword: item, deleteOtp: { id in
                             do {
                                 try self.oneTimePasswordService.removeOneTimePassword(byId: id)
                             } catch {

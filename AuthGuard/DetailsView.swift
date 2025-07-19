@@ -1,5 +1,5 @@
 //
-//  OneTimePasswordDetailsView.swift
+//  DetailsView.swift
 //  AuthGuard
 //
 //  Created by Lukas Grimm on 11.07.25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct OneTimePasswordDetailsView: View {
+struct DetailsView: View {
     let oneTimePassword: OneTimePassword
     let deleteOtp: (UUID) -> Void
 
@@ -41,7 +41,7 @@ struct OneTimePasswordDetailsView: View {
 }
 
 #Preview {
-    OneTimePasswordDetailsView(oneTimePassword: OneTimePassword(
+    DetailsView(oneTimePassword: OneTimePassword(
         label: "Test",
         issuer: "ACME Inc.",
         account: "Account",
