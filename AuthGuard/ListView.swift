@@ -43,7 +43,14 @@ struct ListView: View {
                         }
                         .tint(.red)
                     }
+                    .transition(
+                        .asymmetric(
+                            insertion: .identity,
+                            removal: .scale
+                        )
+                    )
             }
+            .animation(.easeInOut(duration: 0.3), value: oneTimePasswords)
             .listStyle(.insetGrouped)
         }
     }

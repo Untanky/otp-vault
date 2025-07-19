@@ -15,42 +15,25 @@ enum Route: Hashable {
 }
 
 struct ContentView: View {
-    @EnvironmentObject var authenticator: Authenticator
-    @EnvironmentObject var oneTimePasswordService: OneTimePasswordService
+    @EnvironmentObject private var authenticator: Authenticator
+    @EnvironmentObject private var oneTimePasswordService: OneTimePasswordService
     
-    @State var path = NavigationPath()
+    @State private var path = NavigationPath()
     
     var body: some View {
         NavigationStack(path: $path) {
             StartScreen()
                 .onAppear {
                     Task {
-                        do {
-                            try oneTimePasswordService.loadOneTimePasswords()
-                        } catch {
-                            print(error)
-                        }
+                        loadOTPs();
                     }
                 }
                 .navigationDestination(for: Route.self) { route in
                     switch route {
                     case .scan:
-                        ScannerView(scannedOneTimePassword: { otp in
-                            do {
-                                try self.oneTimePasswordService.addOneTimePassword(otp)
-                            } catch {
-                                print(error)
-                            }
-                        })
+                        ScannerView(scannedOneTimePassword: addOTP)
                     case .createManual:
-                        CreateOneTimePasswordView(createdOtp: { otp in
-                            do {
-                                try self.oneTimePasswordService.addOneTimePassword(otp)
-                                path.removeLast()
-                            } catch {
-                                print(error)
-                            }
-                        })
+                        CreateOneTimePasswordView(createdOtp: addOTP)
                     case .oneTimePasswordDetails(let item):
                         DetailsView(oneTimePassword: item, deleteOtp: { oneTimePasswordService.markForDeletion(item) })
                     }
@@ -59,7 +42,7 @@ struct ContentView: View {
                     "Delete One Time Password",
                     isPresented: $oneTimePasswordService.showDeletionConfirmation,
                     presenting: oneTimePasswordService.deletionMarkedOTP,
-                    actions: { item in
+                    actions: { _ in
                         Button(role: .destructive, action: deleteMarkedOTP) {
                             Text("Delete")
                         }
@@ -71,11 +54,30 @@ struct ContentView: View {
         }
     }
     
-    func deleteMarkedOTP() {
+    private func loadOTPs() {
         do {
-            try oneTimePasswordService.deleteMarkedOneTimePassword()
+            try oneTimePasswordService.loadOneTimePasswords()
         } catch {
             print(error)
+        }
+    }
+    
+    private func addOTP(_ otp: OneTimePassword) {
+        do {
+            try self.oneTimePasswordService.addOneTimePassword(otp)
+            path.removeLast()
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func deleteMarkedOTP() {
+        withAnimation {
+            do {
+                try oneTimePasswordService.deleteMarkedOneTimePassword()
+            } catch {
+                print(error)
+            }
         }
     }
 }

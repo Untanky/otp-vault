@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 
+@MainActor
 class OneTimePasswordService: ObservableObject {
     private let modelContext: ModelContext
     private let store: SecretStore

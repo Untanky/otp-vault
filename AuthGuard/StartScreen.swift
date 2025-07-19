@@ -10,8 +10,7 @@ import SwiftData
 import SwiftUI
 
 struct StartScreen: View {
-    @EnvironmentObject var authenticator: Authenticator
-    @EnvironmentObject var oneTimePasswordService: OneTimePasswordService
+    @EnvironmentObject private var oneTimePasswordService: OneTimePasswordService
     
     var body: some View {
         return ListView(oneTimePasswords: oneTimePasswordService.oneTimePasswords, deleteOtp: oneTimePasswordService.markForDeletion)
