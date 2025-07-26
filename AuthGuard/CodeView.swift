@@ -34,11 +34,11 @@ struct CodeView: View {
     private static let codeFont = Font.system(size: 24, weight: .bold, design: .monospaced)
     private static let resetCopyDelay: TimeInterval = 2
     
-    let oneTimePassword: OneTimePassword
+    private let oneTimePassword: OneTimePassword
     
     @State private var code: String
     
-    @Binding var showingCopied: Bool
+    @Binding private var showingCopied: Bool
     
     init(oneTimePassword: OneTimePassword, showingCopied: Binding<Bool>) {
         self.oneTimePassword = oneTimePassword
@@ -70,21 +70,22 @@ struct CodeView: View {
                         )
                     )
             }
-            .onChange(of: showingCopied) { _, _ in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, qos: .userInteractive) {
-                    
+            .onChange(of: showingCopied) { _, new in
+                if new {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + CodeView.resetCopyDelay, execute: toggleShowingCopied)
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + CodeView.resetCopyDelay, execute: {
-                    withAnimation() {
-                        self.showingCopied = false
-                    }
-                })
             }
             .onChange(of: context.date) { _, _ in
                 withAnimation {
                     code = oneTimePassword.generateTotp()
                 }
             }
+        }
+    }
+    
+    private func toggleShowingCopied() {
+        withAnimation {
+            showingCopied = false
         }
     }
 }
