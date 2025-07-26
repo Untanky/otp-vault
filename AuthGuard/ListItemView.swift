@@ -37,8 +37,6 @@ struct ListItemView: View {
     @State private var showingCopied = false
     @State private var isAnimating = false
     
-    private static let codeFont = Font.system(size: 24, weight: .bold, design: .monospaced)
-    
     let oneTimePassword: OneTimePassword
     
     let onClickCode: (String) -> Void
@@ -86,17 +84,11 @@ struct ListItemView: View {
                     CircularTimerView()
                     ZStack {
                         Text("COPIED")
-                            .font(ListItemView.codeFont)
                             .foregroundColor(.green)
                             .opacity(showingCopied ? 1 : 0)
                             .offset(y: showingCopied ? 0 :45)
                             .id("copied")
-                        Text(code)
-                            .font(ListItemView.codeFont)
-                            .foregroundColor(.blue)
-                            .opacity(showingCopied ? 0 : 1)
-                            .offset(y: showingCopied ? -45 : 0)
-                            .id("code")
+                        CodeView(oneTimePassword: oneTimePassword)
                     }
                 }
             }
