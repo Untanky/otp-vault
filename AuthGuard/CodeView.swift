@@ -7,29 +7,6 @@
 
 import SwiftUI
 
-// Custom TimelineSchedule for periodic updates
-struct OneTimePasswordSchedule: TimelineSchedule {
-    /// The interval at which the timeline should update (e.g., 1 second).
-    let period: TimeInterval
-
-    init(period: TimeInterval) {
-        self.period = period
-    }
-
-    func entries(from startDate: Date, mode: TimelineScheduleMode) -> AnyIterator<Date> {
-        let calendar = Calendar.current
-        let nextPeriod = ceil(startDate.timeIntervalSince1970 / period)
-        var lastUpdate = Date(timeIntervalSince1970: nextPeriod * period)
-
-        return AnyIterator {
-            defer {
-                lastUpdate = calendar.date(byAdding: .second, value: Int(period), to: lastUpdate) ?? lastUpdate
-            }
-            return lastUpdate
-        }
-    }
-}
-
 struct CodeView: View {
     private static let codeFont = Font.system(size: 24, weight: .bold, design: .monospaced)
     private static let resetCopyDelay: TimeInterval = 2
@@ -37,7 +14,6 @@ struct CodeView: View {
     private let oneTimePassword: OneTimePassword
     
     @State private var code: String
-    
     @Binding private var showingCopied: Bool
     
     init(oneTimePassword: OneTimePassword, showingCopied: Binding<Bool>) {

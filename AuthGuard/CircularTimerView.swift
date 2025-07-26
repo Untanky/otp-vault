@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CircularTimerView: View {
     let totalTime: Double = 30.0
-    let startDate = Date()
     
     var body: some View {
         TimelineView(.animation) { context in
@@ -23,12 +22,18 @@ struct CircularTimerView: View {
                 Text("\(Int(remaining))")
                     .font(.system(size: 10))
                     .tint(color)
+                    .accessibilityLabel("Remaining time: \(Int(remaining)) seconds")
                 Circle()
                     .trim(from: 0, to: progress)
                     .stroke(lineWidth: 2)
-                    .foregroundColor(color)
+                    .tint(color)
+                    .accessibilityHidden(true)
             }
             .frame(width: 20, height: 20)
         }
     }
+}
+
+#Preview {
+    CircularTimerView()
 }
