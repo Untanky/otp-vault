@@ -35,22 +35,13 @@ struct CircularTimerView: View {
 
 struct ListItemView: View {
     @State private var showingCopied = false
-    @State private var isAnimating = false
     
     let oneTimePassword: OneTimePassword
-    
     let onClickCode: (String) -> Void
-    
-    @State var timerId: TimerId?
-    
-    @State private var code: String
     
     init(item: OneTimePassword, onClickCode: @escaping (String) -> Void) {
         self.oneTimePassword = item
-        
         self.onClickCode = onClickCode
-        
-        self.code = item.generateTotp()
     }
     
     var body: some View {
@@ -62,47 +53,16 @@ struct ListItemView: View {
             }
             Spacer()
             Button(action: {
-                guard !isAnimating else { return }
-                isAnimating = true
-                withAnimation(.spring()) {
+                withAnimation() {
                     showingCopied = true
                 }
-                // Hide "COPIED" after 2 seconds
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    withAnimation(.spring()) {
-                        showingCopied = false
-                    }
-                    // Allow another animation after transition completes
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        isAnimating = false
-                    }
-                }
-                
-                onClickCode(code)
+                onClickCode(oneTimePassword.generateTotp())
             }) {
                 HStack {
                     CircularTimerView()
-                    ZStack {
-                        Text("COPIED")
-                            .foregroundColor(.green)
-                            .opacity(showingCopied ? 1 : 0)
-                            .offset(y: showingCopied ? 0 :45)
-                            .id("copied")
-                        CodeView(oneTimePassword: oneTimePassword)
-                    }
+                    CodeView(oneTimePassword: oneTimePassword, showingCopied: $showingCopied)
                 }
             }
-            .animation(.spring(), value: showingCopied)
-        }
-        .onAppear {
-            self.timerId = TimerService.shared.register(forInterval: oneTimePassword.period, callback: {
-                self.code = oneTimePassword.generateTotp()
-            })
-        }
-        .onDisappear {
-            guard let timerId else { return }
-            TimerService.shared.unregister(id: timerId)
-            self.timerId = nil
         }
     }
 }
