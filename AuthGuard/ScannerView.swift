@@ -14,6 +14,7 @@ struct ScannerView: View {
     var body: some View {
         CodeScannerView(
             codeTypes: [.qr],
+            showViewfinder: true,
             completion: handleScanResult
         )
         .ignoresSafeArea(edges: .bottom)
@@ -25,6 +26,7 @@ struct ScannerView: View {
             print("Error: \(error)")
         case .success(let result):
             guard let uri = URL(string: result.string) else {
+                print("Error: could not parse url")
                 return
             }
             let otpResult = OneTimePassword.parseUri(uri)

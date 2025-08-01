@@ -13,14 +13,17 @@ struct AuthenticationView: View {
     
     var body: some View {
         VStack {
-            Text("Please Authenticate")
+            Text("AuthGuard is locked!")
+                .font(.title)
+                .fontWeight(.bold)
             Button(action: onAuthenticateTap) {
-                Text("Login")
+                Label("Unlock", systemImage: "lock.open")
             }
             .buttonStyle(.borderedProminent)
-        }
-        .onAppear {
-            onAuthenticateTap()
+            Text("Please unlock to use")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+                .padding(.top, 4)
         }
     }
 }

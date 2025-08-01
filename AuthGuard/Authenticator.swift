@@ -6,6 +6,7 @@
 //
 
 import LocalAuthentication
+import SwiftUI
 
 @MainActor
 class Authenticator: ObservableObject {
@@ -39,7 +40,9 @@ class Authenticator: ObservableObject {
             }
             
             try await context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Authenticate")
-            self.state = .authenticated
+            withAnimation(.easeIn(duration: 0.33)) {
+                self.state = .authenticated
+            }
         } catch {
             self.state = .unauthenticated
         }

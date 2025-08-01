@@ -14,6 +14,7 @@ struct AuthGuardApp: App {
     @State var authenticator: Authenticator
     @State var store: SecretStore
     @State var oneTimePasswordService: OneTimePasswordService
+    @State var modelContainer: ModelContainer
     
     init() {
         let modelContainer = try! ModelContainer(for: OneTimePasswordEntity.self, configurations: .init())
@@ -23,13 +24,14 @@ struct AuthGuardApp: App {
         self.authenticator = authenticator
         self.store = store
         self.oneTimePasswordService = .init(modelContext: ModelContext(modelContainer), secretStore: store)
+        self.modelContainer = modelContainer
     }
     
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: [OneTimePasswordEntity.self])
+        .modelContainer(modelContainer)
         .environmentObject(authenticator)
         .environmentObject(oneTimePasswordService)
     }

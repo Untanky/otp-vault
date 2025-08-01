@@ -14,7 +14,20 @@ struct ListView: View {
     
     var body: some View {
         if oneTimePasswords.isEmpty {
-            Text("No One-Time Passwords found.")
+            ContentUnavailableView {
+                Label("No One-Time Passwords", systemImage: "ellipsis.rectangle")
+            } description: {
+                Text("You have not created any One-Time Passwords yet.")
+            } actions: {
+                NavigationLink(value: Route.scan) {
+                    Label("Scan QR Code", systemImage: "qrcode.viewfinder")
+                }
+                .buttonStyle(.borderedProminent)
+                NavigationLink(value: Route.createManual) {
+                    Label("Manually add", systemImage: "plus.circle")
+                }
+                .buttonStyle(.bordered)
+            }
         } else {
             List(oneTimePasswords) { otp in
                 ListItemView(item: otp, onClickCode: { copyToClipboard($0) })
@@ -51,7 +64,7 @@ struct ListView: View {
                     )
             }
             .animation(.easeInOut(duration: 0.3), value: oneTimePasswords)
-            .listStyle(.insetGrouped)
+            .listStyle(.grouped)
         }
     }
     
@@ -65,6 +78,7 @@ struct ListView: View {
         OneTimePassword(label: "Code 1", issuer: "ACME Inc.", account: "john.doe@example.com", secret: "abc".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1),
         OneTimePassword(label: "Code 2", issuer: "ACME Inc.", account: "john.doe@example.com", secret: "def".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1),
         OneTimePassword(label: "Code 3", issuer: "ACME Inc.", account: "john.doe@example.com", secret: "ghi".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1),
+        OneTimePassword(label: "Veryyyy looooooooong label", issuer: "ACME Inc.", account: "loooong.email@example.com", secret: "ghi".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1),
     ], deleteOtp: { _ in })
 }
 

@@ -22,7 +22,9 @@ struct ListItemView: View {
         HStack(alignment: .center) {
             VStack(alignment: .leading) {
                 Text(oneTimePassword.label)
+                    .lineLimit(1)
                 Text(oneTimePassword.account)
+                    .lineLimit(1)
                     .foregroundStyle(.secondary)
             }
             Spacer()
