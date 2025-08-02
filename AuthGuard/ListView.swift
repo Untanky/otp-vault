@@ -64,7 +64,7 @@ struct ListView: View {
                     )
             }
             .animation(.easeInOut(duration: 0.3), value: oneTimePasswords)
-            .listStyle(.grouped)
+            .listStyle(.inset)
         }
     }
     

@@ -21,13 +21,13 @@ struct CircularTimerView: View {
             ZStack {
                 Text("\(Int(remaining))")
                     .font(.system(size: 10))
-                    .tint(color)
+                    .foregroundStyle(color)
                     .accessibilityLabel("Remaining time: \(Int(remaining)) seconds")
                 Circle()
                     .trim(from: 1 - progress, to: 1)
                     .rotation(Angle(degrees: 270))
                     .stroke(lineWidth: 2)
-                    .tint(color)
+                    .foregroundStyle(color)
                     .accessibilityHidden(true)
             }
             .frame(width: 20, height: 20)

@@ -38,9 +38,10 @@ struct ContentView: View {
                         DetailsView(oneTimePassword: item, deleteOtp: { oneTimePasswordService.markForDeletion(item) })
                     }
                 }
-                .alert(
+                .confirmationDialog(
                     "Delete One Time Password",
                     isPresented: $oneTimePasswordService.showDeletionConfirmation,
+                    titleVisibility: .visible,
                     presenting: oneTimePasswordService.deletionMarkedOTP,
                     actions: { _ in
                         Button(role: .destructive, action: deleteMarkedOTP) {
