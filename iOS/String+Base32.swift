@@ -1,6 +1,6 @@
 //
 //  String.Base32.swift
-//  AuthGuard
+//  OTPVault
 //
 //  Created by Lukas Grimm on 14.07.25.
 //

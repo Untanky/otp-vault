@@ -1,6 +1,6 @@
 //
 //  AuthenticationView.swift
-//  AuthGuard
+//  OTPVault
 //
 //  Created by Lukas Grimm on 11.07.25.
 //
@@ -16,7 +16,7 @@ struct AuthenticationView: View {
             Image("Logo")
                 .resizable()
                 .frame(width: 196, height: 196)
-            Text("AuthGuard is locked!")
+            Text("OTP Vault is locked!")
                 .font(.title)
                 .fontWeight(.bold)
             Button(action: onAuthenticateTap) {

@@ -1,6 +1,6 @@
 //
-//  AuthGuardApp.swift
-//  AuthGuard
+//  OTPVaultApp.swift
+//  OTPVault
 //
 //  Created by Lukas Grimm on 10.07.25.
 //
@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftData
 
 @main
-struct AuthGuardApp: App {
+struct OTPVaultApp: App {
     @State var authenticator: Authenticator
     @State var store: SecretStore
     @State var oneTimePasswordService: OneTimePasswordService

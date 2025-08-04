@@ -1,13 +1,13 @@
 //
-//  AuthGuardUITestsLaunchTests.swift
-//  AuthGuardUITests
+//  OTPVaultUITestsLaunchTests.swift
+//  OTPVaultUITests
 //
 //  Created by Lukas Grimm on 10.07.25.
 //
 
 import XCTest
 
-final class AuthGuardUITestsLaunchTests: XCTestCase {
+final class OTPVaultUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

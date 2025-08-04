@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "80549E182E1FD77800C28CC3"
-               BuildableName = "OTPVault.app"
-               BlueprintName = "OTPVault"
+               BuildableName = "iOS.app"
+               BlueprintName = "iOS"
                ReferencedContainer = "container:OTPVault.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -36,8 +36,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "80549E272E1FD77A00C28CC3"
-               BuildableName = "OTPVaultTests.xctest"
-               BlueprintName = "OTPVaultTests"
+               BuildableName = "Tests.xctest"
+               BlueprintName = "Tests"
                ReferencedContainer = "container:OTPVault.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -47,8 +47,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "80549E312E1FD77A00C28CC3"
-               BuildableName = "OTPVaultUITests.xctest"
-               BlueprintName = "OTPVaultUITests"
+               BuildableName = "UITests.xctest"
+               BlueprintName = "UITests"
                ReferencedContainer = "container:OTPVault.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -69,8 +69,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "80549E182E1FD77800C28CC3"
-            BuildableName = "OTPVault.app"
-            BlueprintName = "OTPVault"
+            BuildableName = "iOS.app"
+            BlueprintName = "iOS"
             ReferencedContainer = "container:OTPVault.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -86,8 +86,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "80549E182E1FD77800C28CC3"
-            BuildableName = "OTPVault.app"
-            BlueprintName = "OTPVault"
+            BuildableName = "iOS.app"
+            BlueprintName = "iOS"
             ReferencedContainer = "container:OTPVault.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

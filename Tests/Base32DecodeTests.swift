@@ -1,12 +1,12 @@
 //
 //  Base32DecodeTests.swift
-//  AuthGuard
+//  OTPVault
 //
 //  Created by Lukas Grimm on 14.07.25.
 //
 
 import Testing
-@testable import AuthGuard
+@testable import OTPVault
 
 struct Base32DecodeTests {
 

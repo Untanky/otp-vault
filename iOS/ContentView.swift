@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  AuthGuard
+//  OTPVault
 //
 //  Created by Lukas Grimm on 15.07.25.
 //

@@ -1,6 +1,6 @@
 //
 //  CodeView.swift
-//  AuthGuard
+//  OTPVault
 //
 //  Created by Lukas Grimm on 25.07.25.
 //

@@ -1,6 +1,6 @@
 //
 //  OneTimePasswordService.swift
-//  AuthGuard
+//  OTPVault
 //
 //  Created by Lukas Grimm on 17.07.25.
 //

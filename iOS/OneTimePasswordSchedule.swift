@@ -1,6 +1,6 @@
 //
 //  OneTimePasswordSchedule.swift
-//  AuthGuard
+//  OTPVault
 //
 //  Created by Lukas Grimm on 26.07.25.
 //
