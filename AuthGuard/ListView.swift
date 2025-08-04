@@ -10,23 +10,32 @@ import SwiftData
 
 struct ListView: View {
     let oneTimePasswords: [OneTimePassword]
+    let isFiltered: Bool
     let deleteOtp: (OneTimePassword) -> Void
     
     var body: some View {
         if oneTimePasswords.isEmpty {
-            ContentUnavailableView {
-                Label("No One-Time Passwords", systemImage: "ellipsis.rectangle")
-            } description: {
-                Text("You have not created any One-Time Passwords yet.")
-            } actions: {
-                NavigationLink(value: Route.scan) {
-                    Label("Scan QR Code", systemImage: "qrcode.viewfinder")
+            if isFiltered {
+                ContentUnavailableView {
+                    Label("No One-Time Passwords found", systemImage: "ellipsis.rectangle")
+                } description: {
+                    Text("Try another search query.")
                 }
-                .buttonStyle(.borderedProminent)
-                NavigationLink(value: Route.createManual) {
-                    Label("Manually add", systemImage: "plus.circle")
+            } else {
+                ContentUnavailableView {
+                    Label("No One-Time Passwords", systemImage: "ellipsis.rectangle")
+                } description: {
+                    Text("You have not created any One-Time Passwords yet.")
+                } actions: {
+                    NavigationLink(value: Route.scan) {
+                        Label("Scan QR Code", systemImage: "qrcode.viewfinder")
+                    }
+                    .buttonStyle(.borderedProminent)
+                    NavigationLink(value: Route.createManual) {
+                        Label("Manually add", systemImage: "plus.circle")
+                    }
+                    .buttonStyle(.bordered)
                 }
-                .buttonStyle(.bordered)
             }
         } else {
             List(oneTimePasswords) { otp in
@@ -79,9 +88,9 @@ struct ListView: View {
         OneTimePassword(label: "Code 2", issuer: "ACME Inc.", account: "john.doe@example.com", secret: "def".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1),
         OneTimePassword(label: "Code 3", issuer: "ACME Inc.", account: "john.doe@example.com", secret: "ghi".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1),
         OneTimePassword(label: "Veryyyy looooooooong label", issuer: "ACME Inc.", account: "loooong.email@example.com", secret: "ghi".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1),
-    ], deleteOtp: { _ in })
+    ], isFiltered: false, deleteOtp: { _ in })
 }
 
 #Preview("Empty OneTimePasswordListView") {
-    ListView(oneTimePasswords: [], deleteOtp: { _ in })
+    ListView(oneTimePasswords: [], isFiltered: false, deleteOtp: { _ in })
 }

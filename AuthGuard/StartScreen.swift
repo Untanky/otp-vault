@@ -13,9 +13,23 @@ struct StartScreen: View {
     @EnvironmentObject private var oneTimePasswordService: OneTimePasswordService
     @EnvironmentObject private var authenticator: Authenticator
     
+    @State private var searchText: String = ""
+    
+    private var filteredOneTimePasswords: [OneTimePassword] {
+        if searchText.isEmpty {
+            return oneTimePasswordService.oneTimePasswords
+        }
+        
+        return oneTimePasswordService.oneTimePasswords.filter { otp in
+            return otp.account.localizedCaseInsensitiveContains(searchText) ||
+            otp.label.localizedCaseInsensitiveContains(searchText) ||
+            otp.issuer.localizedCaseInsensitiveContains(searchText)
+        }
+    }
+    
     var body: some View {
         ZStack {
-            ListView(oneTimePasswords: oneTimePasswordService.oneTimePasswords, deleteOtp: oneTimePasswordService.markForDeletion)
+            ListView(oneTimePasswords: filteredOneTimePasswords, isFiltered: searchText.isEmpty, deleteOtp: oneTimePasswordService.markForDeletion)
                 .navigationTitle("One-Time Passwords")
                 .toolbar {
                     ToolbarItem(placement: .bottomBar) {
@@ -34,6 +48,7 @@ struct StartScreen: View {
                         await authenticator.authenticate()
                     }
                 }
+                .searchable(text: $searchText, prompt: "Search")
         }
         .overlay {
             Group {
