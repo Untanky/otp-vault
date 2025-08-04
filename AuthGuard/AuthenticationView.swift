@@ -13,6 +13,9 @@ struct AuthenticationView: View {
     
     var body: some View {
         VStack {
+            Image("Logo")
+                .resizable()
+                .frame(width: 196, height: 196)
             Text("AuthGuard is locked!")
                 .font(.title)
                 .fontWeight(.bold)
