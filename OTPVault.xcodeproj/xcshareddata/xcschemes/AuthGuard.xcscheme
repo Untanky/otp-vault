@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "80549E182E1FD77800C28CC3"
-               BuildableName = "AuthGuard.app"
-               BlueprintName = "AuthGuard"
-               ReferencedContainer = "container:AuthGuard.xcodeproj">
+               BuildableName = "OTPVault.app"
+               BlueprintName = "OTPVault"
+               ReferencedContainer = "container:OTPVault.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -36,9 +36,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "80549E272E1FD77A00C28CC3"
-               BuildableName = "AuthGuardTests.xctest"
-               BlueprintName = "AuthGuardTests"
-               ReferencedContainer = "container:AuthGuard.xcodeproj">
+               BuildableName = "OTPVaultTests.xctest"
+               BlueprintName = "OTPVaultTests"
+               ReferencedContainer = "container:OTPVault.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "80549E312E1FD77A00C28CC3"
-               BuildableName = "AuthGuardUITests.xctest"
-               BlueprintName = "AuthGuardUITests"
-               ReferencedContainer = "container:AuthGuard.xcodeproj">
+               BuildableName = "OTPVaultUITests.xctest"
+               BlueprintName = "OTPVaultUITests"
+               ReferencedContainer = "container:OTPVault.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -69,9 +69,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "80549E182E1FD77800C28CC3"
-            BuildableName = "AuthGuard.app"
-            BlueprintName = "AuthGuard"
-            ReferencedContainer = "container:AuthGuard.xcodeproj">
+            BuildableName = "OTPVault.app"
+            BlueprintName = "OTPVault"
+            ReferencedContainer = "container:OTPVault.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -86,9 +86,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "80549E182E1FD77800C28CC3"
-            BuildableName = "AuthGuard.app"
-            BlueprintName = "AuthGuard"
-            ReferencedContainer = "container:AuthGuard.xcodeproj">
+            BuildableName = "OTPVault.app"
+            BlueprintName = "OTPVault"
+            ReferencedContainer = "container:OTPVault.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
