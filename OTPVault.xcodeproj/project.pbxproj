@@ -33,9 +33,30 @@
 		80549E322E1FD77A00C28CC3 /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		8073A6BB2E4A391A005E6662 /* Exceptions for "iOS" folder in "iOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				FullScreenCoverView.swift,
+			);
+			target = 80549E182E1FD77800C28CC3 /* iOS */;
+		};
+		8073A6BC2E4A391A005E6662 /* Exceptions for "iOS" folder in "Tests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				FullScreenCoverView.swift,
+			);
+			target = 80549E272E1FD77A00C28CC3 /* Tests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		80549E1B2E1FD77800C28CC3 /* iOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8073A6BB2E4A391A005E6662 /* Exceptions for "iOS" folder in "iOS" target */,
+				8073A6BC2E4A391A005E6662 /* Exceptions for "iOS" folder in "Tests" target */,
+			);
 			path = iOS;
 			sourceTree = "<group>";
 		};

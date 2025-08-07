@@ -29,7 +29,7 @@ struct OTPVaultApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
         .modelContainer(modelContainer)
         .environmentObject(authenticator)
