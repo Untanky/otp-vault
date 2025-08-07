@@ -32,6 +32,11 @@ struct StartScreen: View {
             ListView(oneTimePasswords: filteredOneTimePasswords, isFiltered: searchText.isEmpty, deleteOtp: oneTimePasswordService.markForDeletion)
                 .navigationTitle("One-Time Passwords")
                 .toolbar {
+                    ToolbarItem(placement: .automatic) {
+                        NavigationLink(destination: AboutScreen(), label: {
+                            Image(systemName: "ellipsis.circle")
+                        })
+                    }
                     ToolbarItem(placement: .bottomBar) {
                         NavigationLink(value: Route.createManual) {
                             Image(systemName: "plus.circle")
