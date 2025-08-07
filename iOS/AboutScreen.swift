@@ -50,7 +50,7 @@ struct AboutScreen: View {
                 LabeledContent("Version") { Text(version) }
                 Button(action: { url = AboutScreen.gitHubURL }) {
                     Text("Source Code")
-                }g
+                }
             }
             
             Section {

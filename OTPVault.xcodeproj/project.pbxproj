@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		80A569642E212EE800B2076A /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 80A569632E212EE800B2076A /* CodeScanner */; };
+		80D376A02E45035A00783C51 /* FullScreenCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D3769F2E45035A00783C51 /* FullScreenCoverView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +32,7 @@
 		80549E192E1FD77800C28CC3 /* iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80549E282E1FD77A00C28CC3 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		80549E322E1FD77A00C28CC3 /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		80D3769F2E45035A00783C51 /* FullScreenCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenCoverView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -84,6 +86,7 @@
 				80549E2B2E1FD77A00C28CC3 /* Tests */,
 				80549E352E1FD77A00C28CC3 /* UITests */,
 				80549E1A2E1FD77800C28CC3 /* Products */,
+				80D3769F2E45035A00783C51 /* FullScreenCoverView.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -252,6 +255,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80D376A02E45035A00783C51 /* FullScreenCoverView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

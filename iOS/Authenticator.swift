@@ -18,12 +18,7 @@ class Authenticator: ObservableObject {
     }
     
     let context: LAContext
-    @Published private(set) var state: State = .unauthenticated {
-        didSet {
-            authenticated = state == .authenticated
-        }
-    }
-    @Published private(set) var authenticated: Bool = false
+    @Published var state: State = .unauthenticated
     
     init() {
         self.context = .init()
@@ -40,9 +35,7 @@ class Authenticator: ObservableObject {
             }
             
             try await context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Authenticate")
-            withAnimation(.easeIn(duration: 0.33)) {
-                self.state = .authenticated
-            }
+            self.state = .authenticated
         } catch {
             self.state = .unauthenticated
         }
