@@ -14,45 +14,49 @@ struct HomeScreen: View {
     @EnvironmentObject private var oneTimePasswordService: OneTimePasswordService
     @EnvironmentObject private var authenticator: Authenticator
     
-    @State private var searchText: String = ""
-    
-    private var filteredOneTimePasswords: [OneTimePassword] {
-        if searchText.isEmpty {
-            return oneTimePasswordService.oneTimePasswords
-        }
-        
-        return oneTimePasswordService.oneTimePasswords.filter { otp in
-            return otp.account.localizedCaseInsensitiveContains(searchText) ||
-            otp.label.localizedCaseInsensitiveContains(searchText) ||
-            otp.issuer.localizedCaseInsensitiveContains(searchText)
-        }
-    }
-    
     var body: some View {
-        ListView(oneTimePasswords: filteredOneTimePasswords, isFiltered: !searchText.isEmpty, deleteOtp: oneTimePasswordService.markForDeletion)
-        .navigationTitle("One-Time Passwords")
-        .toolbar {
-            ToolbarItem(placement: .automatic) {
-                NavigationLink(destination: AboutScreen(), label: {
-                    Image(systemName: "ellipsis.circle")
-                })
-            }
-            ToolbarItem(placement: .bottomBar) {
-                NavigationLink(value: Route.createManual) {
-                    Image(systemName: "plus.circle")
+        Group {
+            if oneTimePasswordService.oneTimePasswords.isEmpty {
+                ContentUnavailableView {
+                    Label("No One-Time Passwords", systemImage: "ellipsis.rectangle")
+                } description: {
+                    Text("You have not created any One-Time Passwords yet.")
+                } actions: {
+                    NavigationLink(value: Route.scan) {
+                        Label("Scan QR Code", systemImage: "qrcode.viewfinder")
+                    }
+                    .buttonStyle(.borderedProminent)
+                    NavigationLink(value: Route.createManual) {
+                        Label("Manually add", systemImage: "plus.circle")
+                    }
+                    .buttonStyle(.bordered)
                 }
-            }
-            ToolbarItem(placement: .bottomBar) {
-                NavigationLink(value: Route.scan) {
-                    Image(systemName: "qrcode.viewfinder")
-                }
+            } else {
+                ListView(oneTimePasswords: oneTimePasswordService.oneTimePasswords, deleteOtp: oneTimePasswordService.markForDeletion)
             }
         }
-        .onAppear {
-            Task {
-                await authenticator.authenticate()
+            .navigationTitle("One-Time Passwords")
+            .toolbar {
+                ToolbarItem(placement: .automatic) {
+                    NavigationLink(destination: AboutScreen(), label: {
+                        Image(systemName: "ellipsis.circle")
+                    })
+                }
+                ToolbarItem(placement: .bottomBar) {
+                    NavigationLink(value: Route.createManual) {
+                        Image(systemName: "plus.circle")
+                    }
+                }
+                ToolbarItem(placement: .bottomBar) {
+                    NavigationLink(value: Route.scan) {
+                        Image(systemName: "qrcode.viewfinder")
+                    }
+                }
             }
-        }
-        .searchable(text: $searchText, prompt: "Search")
+            .onAppear {
+                Task {
+                    await authenticator.authenticate()
+                }
+            }
     }
 }

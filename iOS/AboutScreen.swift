@@ -32,7 +32,7 @@ extension URL: @retroactive Identifiable {
 
 struct AboutScreen: View {
     private static let gitHubURL = URL(string: "https://github.com/untanky/otp-vault")!
-    private static let privacyStatementURL = URL(string: "https://lukasgrimm.de/privacy-statement")!
+    private static let privacyStatementURL = URL(string: "https://otpvault.app/data-privacy.html")!
     
     @State private var url: URL?
     
