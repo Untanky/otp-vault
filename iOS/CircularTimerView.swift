@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct CircularTimerView: View {
-    let totalTime: Double = 30.0
+    let totalTime: Double
+    
+    init(totalTime: Double = 30) {
+        self.totalTime = totalTime
+    }
     
     var body: some View {
         TimelineView(.animation) { context in

@@ -10,12 +10,10 @@ import SwiftUI
 struct ListItemView: View {
     @State private var showingCopied = false
     
-    let oneTimePassword: OneTimePassword
-    let onClickCode: (String) -> Void
+    private let oneTimePassword: OneTimePassword
     
-    init(item: OneTimePassword, onClickCode: @escaping (String) -> Void) {
+    init(item: OneTimePassword) {
         self.oneTimePassword = item
-        self.onClickCode = onClickCode
     }
     
     var body: some View {
@@ -28,21 +26,11 @@ struct ListItemView: View {
                     .foregroundStyle(.secondary)
             }
             Spacer()
-            Button(action: {
-                withAnimation() {
-                    showingCopied = true
-                }
-                onClickCode(oneTimePassword.generateTotp())
-            }) {
-                HStack {
-                    CircularTimerView()
-                    CodeView(oneTimePassword: oneTimePassword, showingCopied: $showingCopied)
-                }
-            }
+            CodeWithTimer(oneTimePassword: oneTimePassword)
         }
     }
 }
 
 #Preview {
-    ListItemView(item: OneTimePassword(label: "Platform", issuer: "Issuer", account: "Account 1", secret: "a".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1), onClickCode: { code in print("Hello World") })
+    ListItemView(item: OneTimePassword(label: "Platform", issuer: "Issuer", account: "Account 1", secret: "a".data(using: .utf8)!, period: TimeInterval(30), digits: 6, algorithm: .sha1))
 }

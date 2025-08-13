@@ -21,17 +21,7 @@ struct DetailsView: View {
                 LabeledContent("Issuer", value: oneTimePassword.issuer)
                 LabeledContent("Account", value: oneTimePassword.account)
                 LabeledContent("Code") {
-                    Button(action: {
-                        withAnimation() {
-                            showingCopied  = true
-                        }
-                        copyCode(oneTimePassword.generateTotp())
-                    }) {
-                        HStack {
-                            CircularTimerView()
-                            CodeView(oneTimePassword: oneTimePassword, showingCopied: $showingCopied)
-                        }
-                    }
+                    CodeWithTimer(oneTimePassword: oneTimePassword)
                 }
             }
             
