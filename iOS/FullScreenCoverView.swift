@@ -5,7 +5,6 @@
 //  Created by Lukas Grimm on 07.08.25.
 //
 
-
 import SwiftUI
 
 struct FullScreenCoverView<Content: View>: View {
