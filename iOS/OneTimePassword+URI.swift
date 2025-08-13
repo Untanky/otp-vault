@@ -38,7 +38,7 @@ extension OneTimePassword {
         guard path.count == 2 else {
             return .failure(.invalidLabel)
         }
-        let label = path[1]
+        var label = path[1]
         
         guard let queryItems = components.queryItems else {
             return .failure(.missingSecret)
@@ -63,10 +63,19 @@ extension OneTimePassword {
         
         let issuer = queryMap["issuer"] ?? ""
         
-        guard !label.contains(":") && issuer != label.split(separator: ":").first! else {
-            return .failure(.mismatchedIssuer)
+        var account = ""
+        if label.contains(":") {
+            let splitLabel = label.split(separator: ":")
+            
+            if issuer != label.split(separator: ":").first! {
+                return .failure(.mismatchedIssuer)
+            }
+            
+            print(splitLabel)
+            label = splitLabel.first!.description
+            account = splitLabel.last!.description
         }
         
-        return .success(.init(label: label, issuer: issuer, account: label.split(separator: ":").last!.description, secret: secret, period: TimeInterval(period), digits: digits, algorithm: algorithm))
+        return .success(.init(label: label, issuer: issuer, account: account, secret: secret, period: TimeInterval(period), digits: digits, algorithm: algorithm))
     }
 }

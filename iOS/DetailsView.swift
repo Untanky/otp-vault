@@ -23,7 +23,7 @@ struct DetailsView: View {
             
             Section {
                 DisclosureGroup("Technical Details") {
-                    LabeledContent("Period", value: String(format: "%i s", oneTimePassword.period))
+                    LabeledContent("Period", value: "\(Int(oneTimePassword.period)) s")
                     LabeledContent("Algorithm", value: oneTimePassword.algorithm.rawValue)
                     LabeledContent("Digits", value: String(oneTimePassword.digits))
                 }
