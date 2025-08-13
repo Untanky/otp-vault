@@ -9,16 +9,30 @@ import SwiftUI
 
 struct DetailsView: View {
     let oneTimePassword: OneTimePassword
+    let copyCode: (String) -> Void
     let deleteOtp: () -> Void
+    
+    @State private var showingCopied = false
 
     var body: some View {
-        Form {
+        List {
             Section("Settings") {
-                TextField("Label", text: .constant(oneTimePassword.label))
-                TextField("Account", text: .constant(oneTimePassword.account))
-                Text("(Secret is not shown)")
-                    .foregroundStyle(.secondary)
-                TextField("Issuer", text: .constant(oneTimePassword.issuer))
+                LabeledContent("Label", value: oneTimePassword.label)
+                LabeledContent("Issuer", value: oneTimePassword.issuer)
+                LabeledContent("Account", value: oneTimePassword.account)
+                LabeledContent("Code") {
+                    Button(action: {
+                        withAnimation() {
+                            showingCopied  = true
+                        }
+                        copyCode(oneTimePassword.generateTotp())
+                    }) {
+                        HStack {
+                            CircularTimerView()
+                            CodeView(oneTimePassword: oneTimePassword, showingCopied: $showingCopied)
+                        }
+                    }
+                }
             }
             
             Section {
@@ -27,8 +41,12 @@ struct DetailsView: View {
                     LabeledContent("Algorithm", value: oneTimePassword.algorithm.rawValue)
                     LabeledContent("Digits", value: String(oneTimePassword.digits))
                 }
+                
+                Button(action: copyUrl) {
+                    Label("Copy Setup URL", systemImage: "document.on.document")
+                }
             }
-           
+            
             Section {
                 Button(action: deleteOtp) {
                     Label("Delete", systemImage: "trash")
@@ -37,6 +55,10 @@ struct DetailsView: View {
             }
         }
         .navigationTitle("Details")
+    }
+    
+    private func copyUrl() {
+        
     }
 }
 
@@ -49,5 +71,5 @@ struct DetailsView: View {
         period: TimeInterval(30),
         digits: 6,
         algorithm: .sha1
-    ), deleteOtp: { })
+    ), copyCode: { text in }, deleteOtp: { })
 }

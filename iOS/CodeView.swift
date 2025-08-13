@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CodeView: View {
-    private static let codeFont = Font.system(size: 24, weight: .bold, design: .monospaced)
+    private static let codeFont = Font.system(size: 20, weight: .bold, design: .monospaced)
     private static let resetCopyDelay: TimeInterval = 2
     
     private let oneTimePassword: OneTimePassword
