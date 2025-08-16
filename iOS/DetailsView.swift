@@ -9,11 +9,11 @@ import SwiftUI
 
 struct DetailsView: View {
     let oneTimePassword: OneTimePassword
-    let copyCode: (String) -> Void
+    let updateOtp: (OneTimePassword) -> Void
     let deleteOtp: () -> Void
     
-    @State private var showingCopied = false
-
+    @State private var isEditing = false
+    
     var body: some View {
         List {
             Section("Settings") {
@@ -45,6 +45,26 @@ struct DetailsView: View {
             }
         }
         .navigationTitle("Details")
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button(action: { isEditing = true }) {
+                    Label("Edit", systemImage: "pencil")
+                }
+            }
+        }
+        .inspector(isPresented: $isEditing) {
+            NavigationView {
+                DetailsEditView(label: oneTimePassword.label, account: oneTimePassword.account, issuer: oneTimePassword.issuer, onCancel: { isEditing = false }, onSubmit: updateOneTimePassword)
+                    .navigationTitle("Update OTP")
+            }
+                .presentationDetents([.large])
+                .presentationDragIndicator(.hidden)
+        }
+    }
+    
+    private func updateOneTimePassword(_ otp: DetailsEditValues) {
+        updateOtp(.init(id: oneTimePassword.id, label: otp.label, issuer: otp.issuer, account: otp.account, secret: oneTimePassword.secret, period: oneTimePassword.period, digits: oneTimePassword.digits, algorithm: oneTimePassword.algorithm))
+        isEditing = false
     }
     
     private func copyUrl() {
@@ -61,5 +81,5 @@ struct DetailsView: View {
         period: TimeInterval(30),
         digits: 6,
         algorithm: .sha1
-    ), copyCode: { text in }, deleteOtp: { })
+    ), updateOtp: { otp in }, deleteOtp: { })
 }

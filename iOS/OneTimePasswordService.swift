@@ -48,6 +48,38 @@ class OneTimePasswordService: ObservableObject {
         }
     }
     
+    func find(byId id: UUID) throws -> OneTimePasswordEntity {
+        let descriptor = FetchDescriptor<OneTimePasswordEntity>(
+            predicate: #Predicate { $0.id == id }
+        )
+        
+        do {
+            let results = try modelContext.fetch(descriptor)
+            guard let result = results.first else {
+                throw NSError(domain: "", code: 0, userInfo: nil)
+            }
+            
+            return result
+        } catch {
+            print("Fetch failed: \(error)")
+            throw NSError(domain: "", code: 0, userInfo: nil)
+        }
+    }
+    
+    func updateOneTimePassword(_ oneTimePassword: OneTimePassword) throws {
+        do {
+            let entity = try find(byId: oneTimePassword.id)
+            entity.label = oneTimePassword.label
+            entity.issuer = oneTimePassword.issuer
+            entity.account = oneTimePassword.account
+            try modelContext.save()
+            try loadOneTimePasswords()
+        } catch {
+            modelContext.rollback()
+            throw error
+        }
+    }
+    
     func markForDeletion(_ oneTimePassword: OneTimePassword) {
         deletionMarkedOTP = oneTimePassword
         showDeletionConfirmation = true

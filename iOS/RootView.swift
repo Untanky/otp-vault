@@ -37,7 +37,7 @@ struct RootView: View {
                         case .createManual:
                             CreateOneTimePasswordView(createdOtp: addOTP)
                         case .oneTimePasswordDetails(let item):
-                            DetailsView(oneTimePassword: item, copyCode: { code in UIPasteboard.general.string = code }, deleteOtp: { oneTimePasswordService.markForDeletion(item) })
+                            DetailsView(oneTimePassword: item, updateOtp: updateOTP, deleteOtp: { oneTimePasswordService.markForDeletion(item) })
                         }
                     }
                     .confirmationDialog(
@@ -81,6 +81,14 @@ struct RootView: View {
         do {
             try self.oneTimePasswordService.addOneTimePassword(otp)
             path.removeLast()
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func updateOTP(_ otp: OneTimePassword) {
+        do {
+            try self.oneTimePasswordService.updateOneTimePassword(otp)
         } catch {
             print(error)
         }
