@@ -22,21 +22,31 @@ enum AuthenticationError: Error {
     }
 }
 
+@MainActor
 class AuthenticationContext: ObservableObject {
-    let localAuthenticationContext: LAContext
+    @Published private(set) var localAuthenticationContext: LAContext
     
     init() {
         localAuthenticationContext = LAContext()
     }
     
-    func authenticate() async throws {
+    func biometricType() throws -> LABiometryType {
+        try checkPolicy()
+        return localAuthenticationContext.biometryType
+    }
+    
+    func checkPolicy() throws {
         var error: NSError?
         localAuthenticationContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error)
         if error != nil {
             throw AuthenticationError.biometryNotAvailable
         }
-        
+    }
+    
+    func authenticate() async throws {
+        localAuthenticationContext = LAContext()
         do {
+            try checkPolicy()
             try await localAuthenticationContext.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "Authenticate")
         } catch {
             throw AuthenticationError.authenticationFailed(error)
@@ -47,18 +57,18 @@ class AuthenticationContext: ObservableObject {
 struct AuthenticationView<Content: View>: View {
     @State private var isAuthenticated: Bool = false
     @State private var error: Error? = nil
-    @State private var context = AuthenticationContext()
+    @StateObject private var context = AuthenticationContext()
     
-    private let content: () -> Content
+    private let content: (AuthenticationContext) -> Content
     
-    init(@ViewBuilder content: @escaping () -> Content) {
+    init(@ViewBuilder content: @escaping (AuthenticationContext) -> Content) {
         self.content = content
     }
     
     var body: some View {
         ZStack {
             if isAuthenticated {
-                content()
+                content(context)
             }
             
             FullScreenCoverView(isPresented: !isAuthenticated) {
@@ -101,15 +111,19 @@ struct AuthenticationView<Content: View>: View {
     }
     
     private var biometryLabel: some View {
-        switch context.localAuthenticationContext.biometryType {
-        case .faceID:
-            Label("Unlock with FaceID", systemImage: "faceid")
-        case .opticID:
-            Label("Unlock with OpticID", systemImage: "opticid")
-        case .touchID:
-            Label("Unlock with TouchID", systemImage: "touchid")
-        default:
-            Label("Unlock", systemImage: "lock")
+        do {
+            switch try context.biometricType() {
+            case .faceID:
+                return Label("Unlock with FaceID", systemImage: "faceid")
+            case .opticID:
+                return Label("Unlock with OpticID", systemImage: "opticid")
+            case .touchID:
+                return Label("Unlock with TouchID", systemImage: "touchid")
+            default:
+                return Label("Unlock", systemImage: "lock")
+            }
+        } catch {
+            return Label("Unlock", systemImage: "lock")
         }
     }
     

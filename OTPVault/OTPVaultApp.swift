@@ -20,8 +20,10 @@ struct OTPVaultApp: App {
     
     var body: some Scene {
         WindowGroup {
-            AuthenticationView {
-                Text("Hello World!")
+            AuthenticationView { authenticationContext in
+                CoreView(modelContext: .init(modelContainer), authenticationContext: authenticationContext) {
+                    HomeScreen()
+                }
             }
         }
         .modelContainer(modelContainer)

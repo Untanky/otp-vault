@@ -12,7 +12,6 @@ import SwiftUI
 
 struct HomeScreen: View {
     @EnvironmentObject private var oneTimePasswordService: OneTimePasswordService
-    @EnvironmentObject private var authenticator: Authenticator
     
     var body: some View {
         Group {
@@ -51,11 +50,6 @@ struct HomeScreen: View {
                     NavigationLink(value: Route.scan) {
                         Image(systemName: "qrcode.viewfinder")
                     }
-                }
-            }
-            .onAppear {
-                Task {
-                    await authenticator.authenticate()
                 }
             }
     }

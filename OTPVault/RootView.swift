@@ -14,7 +14,6 @@ enum Route: Hashable {
 }
 
 struct RootView: View {
-    @EnvironmentObject private var authenticator: Authenticator
     @EnvironmentObject private var oneTimePasswordService: OneTimePasswordService
     
     @State private var path = NavigationPath()
@@ -28,16 +27,6 @@ struct RootView: View {
                     .onAppear {
                         Task {
                             loadOTPs();
-                        }
-                    }
-                    .navigationDestination(for: Route.self) { route in
-                        switch route {
-                        case .scan:
-                            ScannerView(scannedOneTimePassword: addOTP)
-                        case .createManual:
-                            CreateOneTimePasswordView(createdOtp: addOTP)
-                        case .oneTimePasswordDetails(let item):
-                            DetailsView(oneTimePassword: item, updateOtp: updateOTP, deleteOtp: { oneTimePasswordService.markForDeletion(item) })
                         }
                     }
                     .confirmationDialog(
@@ -56,16 +45,6 @@ struct RootView: View {
                     )
             }
 
-            FullScreenCoverView(isPresented: !authenticated) {
-                AuthenticationView(onAuthenticateTap: {
-                    Task {
-                        await authenticator.authenticate()
-                    }
-                })
-            }
-        }
-        .onChange(of: authenticator.state) { oldValue, newValue in
-            authenticated = newValue == .authenticated
         }
     }
     
