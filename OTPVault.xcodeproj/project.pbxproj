@@ -34,7 +34,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		8073A6BF2E4A4088005E6662 /* Exceptions for "iOS" folder in "iOS" target */ = {
+		8073A6BF2E4A4088005E6662 /* Exceptions for "OTPVault" folder in "iOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -44,22 +44,22 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		80549E1B2E1FD77800C28CC3 /* iOS */ = {
+		80549E1B2E1FD77800C28CC3 /* OTPVault */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				8073A6BF2E4A4088005E6662 /* Exceptions for "iOS" folder in "iOS" target */,
+				8073A6BF2E4A4088005E6662 /* Exceptions for "OTPVault" folder in "iOS" target */,
 			);
-			path = iOS;
+			path = OTPVault;
 			sourceTree = "<group>";
 		};
-		80549E2B2E1FD77A00C28CC3 /* Tests */ = {
+		80549E2B2E1FD77A00C28CC3 /* OTPVaultTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Tests;
+			path = OTPVaultTests;
 			sourceTree = "<group>";
 		};
-		80549E352E1FD77A00C28CC3 /* UITests */ = {
+		80549E352E1FD77A00C28CC3 /* OTPVaultUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = UITests;
+			path = OTPVaultUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -93,9 +93,9 @@
 		80549E102E1FD77800C28CC3 = {
 			isa = PBXGroup;
 			children = (
-				80549E1B2E1FD77800C28CC3 /* iOS */,
-				80549E2B2E1FD77A00C28CC3 /* Tests */,
-				80549E352E1FD77A00C28CC3 /* UITests */,
+				80549E1B2E1FD77800C28CC3 /* OTPVault */,
+				80549E2B2E1FD77A00C28CC3 /* OTPVaultTests */,
+				80549E352E1FD77A00C28CC3 /* OTPVaultUITests */,
 				80549E1A2E1FD77800C28CC3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -126,7 +126,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				80549E1B2E1FD77800C28CC3 /* iOS */,
+				80549E1B2E1FD77800C28CC3 /* OTPVault */,
 			);
 			name = iOS;
 			packageProductDependencies = (
@@ -150,7 +150,7 @@
 				80549E2A2E1FD77A00C28CC3 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				80549E2B2E1FD77A00C28CC3 /* Tests */,
+				80549E2B2E1FD77A00C28CC3 /* OTPVaultTests */,
 			);
 			name = Tests;
 			packageProductDependencies = (
@@ -173,7 +173,7 @@
 				80549E342E1FD77A00C28CC3 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				80549E352E1FD77A00C28CC3 /* UITests */,
+				80549E352E1FD77A00C28CC3 /* OTPVaultUITests */,
 			);
 			name = UITests;
 			packageProductDependencies = (
@@ -425,7 +425,7 @@
 				DEVELOPMENT_TEAM = WW543G6N3F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = iOS/Info.plist;
+				INFOPLIST_FILE = OTPVault/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "OTP Vault";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera will be used to scan QR codes.";
@@ -449,7 +449,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "iOS/otp-vault-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "OTPVault/otp-vault-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -466,7 +466,7 @@
 				DEVELOPMENT_TEAM = WW543G6N3F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = iOS/Info.plist;
+				INFOPLIST_FILE = OTPVault/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "OTP Vault";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera will be used to scan QR codes.";
@@ -490,7 +490,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "iOS/otp-vault-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "OTPVault/otp-vault-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
