@@ -19,10 +19,7 @@ struct FullScreenCoverView<Content: View>: View {
                     .overlay {
                         content()
                     }
-                    .transition(.asymmetric(
-                        insertion: .move(edge: .bottom),
-                        removal: .scale(scale: 2, anchor: .init(x: 0.5, y: 0.25)).combined(with: .opacity))
-                    )
+                    .transition(.move(edge: .top).combined(with: .opacity))
             }
         }
         .animation(.easeInOut(duration: 0.35), value: isPresented)

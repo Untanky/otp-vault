@@ -11,28 +11,19 @@ import SwiftData
 
 @main
 struct OTPVaultApp: App {
-    @State var authenticator: Authenticator
-    @State var store: SecretStore
-    @State var oneTimePasswordService: OneTimePasswordService
     @State var modelContainer: ModelContainer
     
     init() {
         let modelContainer = try! ModelContainer(for: OneTimePasswordEntity.self, configurations: .init())
-        let authenticator = Authenticator()
-        let store = SecretStore(context: authenticator.context)
-        
-        self.authenticator = authenticator
-        self.store = store
-        self.oneTimePasswordService = .init(modelContext: ModelContext(modelContainer), secretStore: store)
         self.modelContainer = modelContainer
     }
     
     var body: some Scene {
         WindowGroup {
-            RootView()
+            AuthenticationView {
+                Text("Hello World!")
+            }
         }
         .modelContainer(modelContainer)
-        .environmentObject(authenticator)
-        .environmentObject(oneTimePasswordService)
     }
 }
